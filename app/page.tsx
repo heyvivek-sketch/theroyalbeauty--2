@@ -134,11 +134,16 @@ export default async function Home(){
         <div className="container">
           <div className="eyebrow">FAQs</div>
           <h2>Frequently asked questions</h2>
-          {['Why choose salon-at-home services?','Which locations do you serve?','Can I request a specific beauty professional?','How do you ensure client safety?'].map(q=>
-            <div className="faq" key={q}>
-              <b>{q}</b>
-              <p className="muted">Our team focuses on convenience, verified professionals, hygiene and a smooth booking experience at home.</p>
-            </div>
+          {[
+            ['Why choose salon-at-home services?','Enjoy professional beauty care without travel, waiting rooms or salon queues. Choose your service, pick a convenient slot and relax at home.'],
+            ['Which locations do you serve?',`We currently focus on ${city}. Available service areas and pincodes are managed by our team and can be updated from the admin panel.`],
+            ['Can I request a specific beauty professional?','Yes, where availability allows. Our team can assign a suitable professional based on the selected service, area and schedule.'],
+            ['How do you ensure client safety?','We focus on verified professionals, hygiene, clear service details and a smooth booking experience at home.']
+          ].map(([q,a])=>
+            <details className="faq" key={q}>
+              <summary><span>{q}</span><span className="faq-plus">+</span></summary>
+              <p className="muted">{a}</p>
+            </details>
           )}
         </div>
       </section>
