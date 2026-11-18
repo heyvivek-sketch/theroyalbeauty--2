@@ -19,6 +19,7 @@ export default function SiteFooter({settings}:{settings?:Settings}) {
   if (pathname.startsWith('/admin')) return null;
   const whatsapp=settings?.whatsapp_url;
   const brand=settings?.business_name || 'The Royal Beauty';
+  const logo=settings?.logo_url;
   const city=settings?.business_city || 'Delhi-NCR';
   const hours=settings?.opening_hours || '9:00 AM – 7:30 PM';
 
@@ -46,7 +47,7 @@ export default function SiteFooter({settings}:{settings?:Settings}) {
         </Link>
       </div>
       <div className="container footer-brand">
-        <div className="logo">{brand}</div>
+        <div className="logo">{logo ? <img src={logo} alt={brand} className="site-logo-image" /> : brand}</div>
         <p className="muted">Professional beauty services at your doorstep · {city}</p>
         <p className="muted">Appointments: {hours}</p>
       </div>
