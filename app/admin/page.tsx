@@ -24,14 +24,29 @@ function Metric({label,value,icon,sub}:{label:string;value:any;icon:string;sub?:
 
 export default function Admin(){
  const [authed,setAuthed]=useState<boolean|null>(null),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[error,setError]=useState(''),[tab,setTab]=useState<Tab>('Overview'),[data,setData]=useState<any>(null),[mobile,setMobile]=useState(false);
- async function load(){try{setData(await api('/api/admin/overview'));setAuthed(true)}catch{setAuthed(false)}}
+ async function load(){
+  try{
+    const [overview,settings]=await Promise.all([
+      api('/api/admin/overview'),
+      api('/api/admin/settings').catch(()=>[])
+    ]);
+    const settingsMap:any={};
+    for(const item of settings) settingsMap[item.key]=item.value;
+    setData({...overview,settings:settingsMap});
+    setAuthed(true);
+  }catch{setAuthed(false)}
+}
  useEffect(()=>{load()},[]);
  async function login(e:FormEvent){e.preventDefault();setError('');try{await post('/api/admin/login',{email,password});await load()}catch(e:any){setError(e.message||'Invalid email or password')}}
  if(authed===null)return <div className="admin-loading"><div className="admin-spinner"/><p>Loading admin console…</p></div>;
  if(!authed)return <main className="admin-login"><div className="login-decoration"/><div className="login-card"><div className="admin-brand">The <span>Royal Beauty</span> <small>ADMIN</small></div><div className="login-icon">✦</div><div className="eyebrow">Business control center</div><h1>Welcome back</h1><p className="muted">Manage bookings, customers, services, staff and your storefront from one secure dashboard.</p><form className="form" onSubmit={login}><label>Email<input className="input" type="email" required placeholder="admin@theroyalbeauty.in" value={email} onChange={e=>setEmail(e.target.value)}/></label><label>Password<input className="input" type="password" required placeholder="Your admin password" value={password} onChange={e=>setPassword(e.target.value)}/></label>{error&&<div className="admin-error">{error}</div>}<button className="btn admin-login-btn">Sign in to dashboard</button></form></div></main>;
  return <main className="admin-shell">
-  <aside className={'admin-sidebar '+(mobile?'open':'')}><div className="admin-logo">The <span>Royal Beauty</span><div>ADMIN CONSOLE</div></div><nav>{tabs.map(x=><button key={x.name} className={tab===x.name?'admin-nav active':'admin-nav'} onClick={()=>{setTab(x.name);setMobile(false)}}><span>{x.icon}</span>{x.name}</button>)}</nav><div className="sidebar-bottom"><a href="/" target="_blank">↗ View website</a><button onClick={async()=>{await fetch('/api/auth/logout',{method:'POST'});location.reload()}}>↪ Logout</button></div></aside>
-  <div className="admin-main"><header className="admin-topbar"><button className="mobile-menu" aria-label="Open admin menu" onClick={()=>setMobile(!mobile)}>☰</button><h1>{tab}</h1><div className="admin-top-actions"><a href="/" target="_blank" className="admin-view-btn">View website ↗</a></div></header>
+  {mobile&&<button className="admin-sidebar-backdrop" aria-label="Close admin menu" onClick={()=>setMobile(false)} />}
+  <aside className={'admin-sidebar '+(mobile?'open':'')}><div className="admin-logo">
+    {data?.settings?.logo_url ? <img src={data.settings.logo_url} alt={data?.settings?.business_name||'Business logo'} /> : <div className="admin-logo-wordmark">The <span>{data?.settings?.business_name||'Royal Beauty'}</span></div>}
+    <div>ADMIN CONSOLE</div>
+  </div><nav>{tabs.map(x=><button key={x.name} className={tab===x.name?'admin-nav active':'admin-nav'} onClick={()=>{setTab(x.name);setMobile(false)}}><span>{x.icon}</span>{x.name}</button>)}</nav><div className="sidebar-bottom"><a href="/" target="_blank">↗ View website</a><button onClick={async()=>{await fetch('/api/auth/logout',{method:'POST'});location.reload()}}>↪ Logout</button></div></aside>
+  <div className="admin-main"><header className="admin-topbar"><button className="mobile-menu" aria-label={mobile?'Close admin menu':'Open admin menu'} onClick={()=>setMobile(!mobile)}>{mobile?'×':'☰'}</button><h1>{tab}</h1><div className="admin-top-actions"><a href="/" target="_blank" className="admin-view-btn">View website ↗</a></div></header>
   <section className="admin-content">
    {tab==='Overview'&&<Overview data={data} go={setTab}/>}
    {tab==='Bookings'&&<Bookings/>}{tab==='Customers'&&<Customers/>}{tab==='Services'&&<Services/>}{tab==='Categories'&&<Categories/>}
