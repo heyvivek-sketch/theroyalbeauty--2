@@ -3,6 +3,7 @@ generator client {
 }
 
 datasource db {
+<<<<<<< HEAD
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
@@ -19,6 +20,12 @@ model Admin {
   updatedAt    DateTime @updatedAt
 } 
 
+=======
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+>>>>>>> 064116b1b0f1dfcec6025e2a4da8db125afa814b
 model Category {
   id        Int       @id @default(autoincrement())
   name      String
@@ -31,6 +38,7 @@ model Category {
 }
 
 model Service {
+<<<<<<< HEAD
   id           Int            @id @default(autoincrement())
   name         String
   slug         String         @unique
@@ -46,6 +54,23 @@ model Service {
   staff        StaffService[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
+=======
+  id           Int           @id @default(autoincrement())
+  name         String
+  slug         String        @unique
+  description  String        @default("")
+  price        Int
+  duration     Int
+  image        String?
+  active       Boolean       @default(true)
+  sortOrder    Int           @default(0)
+  categoryId   Int
+  category     Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  bookingItems BookingItem[]
+  staff        StaffService[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+>>>>>>> 064116b1b0f1dfcec6025e2a4da8db125afa814b
 }
 
 model Customer {
@@ -76,6 +101,7 @@ model Address {
 }
 
 model Staff {
+<<<<<<< HEAD
   id           Int            @id @default(autoincrement())
   name         String
   phone        String         @unique
@@ -86,6 +112,18 @@ model Staff {
   bookings     Booking[]
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
+=======
+  id           Int           @id @default(autoincrement())
+  name         String
+  phone        String        @unique
+  email        String?
+  passwordHash String?
+  active       Boolean       @default(true)
+  services     StaffService[]
+  bookings     Booking[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+>>>>>>> 064116b1b0f1dfcec6025e2a4da8db125afa814b
 }
 
 model StaffService {
@@ -98,16 +136,25 @@ model StaffService {
 }
 
 model Slot {
+<<<<<<< HEAD
   id           Int               @id @default(autoincrement())
   start        String
   end          String
   active       Boolean           @default(true)
   sortOrder    Int               @default(0)
+=======
+  id           Int              @id @default(autoincrement())
+  start        String
+  end          String
+  active       Boolean          @default(true)
+  sortOrder    Int              @default(0)
+>>>>>>> 064116b1b0f1dfcec6025e2a4da8db125afa814b
   bookings     Booking[]
   reservations SlotReservation[]
 }
 
 model Booking {
+<<<<<<< HEAD
   id            Int              @id @default(autoincrement())
   bookingNo     String           @unique
   customerId    Int
@@ -126,12 +173,37 @@ model Booking {
   discount      Int              @default(0)
   couponId      Int?
   coupon        Coupon?          @relation(fields: [couponId], references: [id], onDelete: SetNull)
+=======
+  id            Int             @id @default(autoincrement())
+  bookingNo     String          @unique
+  customerId    Int
+  customer      Customer        @relation(fields: [customerId], references: [id])
+  addressId     Int
+  address       Address         @relation(fields: [addressId], references: [id])
+  staffId       Int?
+  staff         Staff?          @relation(fields: [staffId], references: [id], onDelete: SetNull)
+  slotId        Int
+  slot          Slot            @relation(fields: [slotId], references: [id])
+  date          DateTime
+  status        BookingStatus   @default(PENDING)
+  paymentStatus PaymentStatus   @default(PENDING)
+  paymentId     String?
+  total         Int
+  discount      Int             @default(0)
+  couponId      Int?
+  coupon        Coupon?         @relation(fields: [couponId], references: [id], onDelete: SetNull)
+>>>>>>> 064116b1b0f1dfcec6025e2a4da8db125afa814b
   notes         String?
   items         BookingItem[]
   review        Review?
   reservation   SlotReservation?
+<<<<<<< HEAD
   createdAt     DateTime         @default(now())
   updatedAt     DateTime         @updatedAt
+=======
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+>>>>>>> 064116b1b0f1dfcec6025e2a4da8db125afa814b
 
   @@index([date, slotId, status])
   @@index([customerId, createdAt])
@@ -149,12 +221,21 @@ model SlotReservation {
 }
 
 model BookingItem {
+<<<<<<< HEAD
   id        Int     @id @default(autoincrement())
   bookingId Int
   booking   Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
   serviceId Int
   service   Service @relation(fields: [serviceId], references: [id])
   qty       Int     @default(1)
+=======
+  id        Int      @id @default(autoincrement())
+  bookingId Int
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  serviceId Int
+  service   Service  @relation(fields: [serviceId], references: [id])
+  qty       Int      @default(1)
+>>>>>>> 064116b1b0f1dfcec6025e2a4da8db125afa814b
   price     Int
 }
 
@@ -184,12 +265,21 @@ model Review {
 }
 
 model Otp {
+<<<<<<< HEAD
   id        Int      @id @default(autoincrement())
   phone     String
   codeHash  String
   expiresAt DateTime
   attempts  Int      @default(0)
   createdAt DateTime @default(now())
+=======
+  id         Int      @id @default(autoincrement())
+  phone      String
+  codeHash   String
+  expiresAt  DateTime
+  attempts   Int      @default(0)
+  createdAt  DateTime @default(now())
+>>>>>>> 064116b1b0f1dfcec6025e2a4da8db125afa814b
 
   @@index([phone, expiresAt])
 }
@@ -202,14 +292,24 @@ model ServiceArea {
 }
 
 model Notification {
+<<<<<<< HEAD
   id         Int                 @id @default(autoincrement())
   customerId Int
   customer   Customer            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+=======
+  id         Int                  @id @default(autoincrement())
+  customerId Int
+  customer   Customer             @relation(fields: [customerId], references: [id], onDelete: Cascade)
+>>>>>>> 064116b1b0f1dfcec6025e2a4da8db125afa814b
   title      String
   body       String
   channel    NotificationChannel
   readAt     DateTime?
+<<<<<<< HEAD
   createdAt  DateTime            @default(now())
+=======
+  createdAt  DateTime             @default(now())
+>>>>>>> 064116b1b0f1dfcec6025e2a4da8db125afa814b
 }
 
 model SiteSetting {
