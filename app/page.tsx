@@ -159,14 +159,6 @@ export default async function Home(){
           )}
         </div>
       </section>
-
-      <footer className="footer">
-        <div className="container footer-brand">
-          <div className="logo">{brand}</div>
-          <p className="muted">Professional beauty services at your doorstep · {city}</p>
-          <p className="muted">Appointments: {hours}</p>
-        </div>
-      </footer>
     </main>
   );
 }
