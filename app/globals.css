@@ -127,3 +127,26 @@
   .footer-brand{display:none}
 }
 @media(min-width:701px){.footer-actions{max-width:1180px;margin:0 auto;border-left:1px solid var(--line);border-right:1px solid var(--line)}}
+
+
+/* ===== Production polish: logo, FAQ accordion, motion ===== */
+.site-logo-image{display:block;width:auto;height:42px;max-width:190px;object-fit:contain}
+.faq{transition:background .22s ease,border-color .22s ease;padding:0!important;overflow:hidden}
+.faq summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 0;cursor:pointer;font-size:17px;font-weight:800}
+.faq summary::-webkit-details-marker{display:none}
+.faq-plus{width:32px;height:32px;border-radius:50%;background:var(--rose-soft);color:var(--rose);display:grid;place-items:center;font-size:22px;font-weight:500;flex:0 0 auto;transition:transform .22s ease,background .22s ease}
+.faq[open] .faq-plus{transform:rotate(45deg);background:var(--rose);color:#fff}
+.faq p{margin:0;padding:0 50px 22px 0;line-height:1.65;animation:faqIn .25s ease}
+@keyframes faqIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes riseIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes softFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.hero> .container,.section>.container{animation:riseIn .55s ease both}
+.cat,.card,.step{transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.cat:hover,.card:hover{transform:translateY(-6px);box-shadow:0 22px 55px rgba(50,24,33,.10);border-color:#e4c7ce}
+.hero-photo{animation:softFloat 6s ease-in-out infinite}
+.hero-actions .btn{transition:transform .2s ease,box-shadow .2s ease}
+.hero-actions .btn:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(189,93,116,.20)}
+.site-header{transition:box-shadow .25s ease}
+.site-header:has(.menu-toggle.open){box-shadow:0 8px 30px rgba(35,18,25,.06)}
+@media(max-width:700px){.site-logo-image{height:36px;max-width:170px}.faq summary{padding:18px 0;font-size:15px}.faq-plus{width:29px;height:29px;font-size:20px}.faq p{padding:0 42px 18px 0;font-size:14px}}
+@media(prefers-reduced-motion:reduce){.hero> .container,.section>.container,.hero-photo,.faq p{animation:none!important}.cat,.card,.step,.btn{transition:none!important}}
