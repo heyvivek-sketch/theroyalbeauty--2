@@ -1,4 +1,6 @@
+'use client';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 type Settings = Record<string, string>;
 
@@ -13,6 +15,8 @@ function BookIcon() {
 }
 
 export default function SiteFooter({settings}:{settings?:Settings}) {
+  const pathname = usePathname();
+  if (pathname.startsWith('/admin')) return null;
   const whatsapp=settings?.whatsapp_url;
   const brand=settings?.business_name || 'The Royal Beauty';
   const city=settings?.business_city || 'Delhi-NCR';
