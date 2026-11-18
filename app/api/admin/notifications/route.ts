@@ -1,0 +1,2 @@
+import {NextResponse} from 'next/server'; import {db} from '@/lib/db'; import {isAdmin} from '@/lib/auth';
+export async function POST(req:Request){if(!await isAdmin())return NextResponse.json({error:'Unauthorized'},{status:401});const b=await req.json();const customers=await db.customer.findMany({select:{id:true}});await db.notification.createMany({data:customers.map(c=>({customerId:c.id,title:b.title,body:b.body,channel:b.channel||'IN_APP'}))});return NextResponse.json({sent:customers.length})}

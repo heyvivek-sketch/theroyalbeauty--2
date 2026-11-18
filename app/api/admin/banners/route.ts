@@ -1,0 +1,4 @@
+import {NextResponse} from 'next/server'; import {db} from '@/lib/db'; import {isAdmin} from '@/lib/auth';
+export async function GET(){if(!await isAdmin())return NextResponse.json({error:'Unauthorized'},{status:401});return NextResponse.json(await db.banner.findMany({orderBy:{sortOrder:'asc'}}))}
+export async function POST(req:Request){if(!await isAdmin())return NextResponse.json({error:'Unauthorized'},{status:401});const b=await req.json();return NextResponse.json(await db.banner.create({data:{title:b.title,subtitle:b.subtitle,image:b.image,link:b.link,sortOrder:Number(b.sortOrder||0)}}))}
+export async function PATCH(req:Request){if(!await isAdmin())return NextResponse.json({error:'Unauthorized'},{status:401});const b=await req.json();return NextResponse.json(await db.banner.update({where:{id:Number(b.id)},data:{active:Boolean(b.active)}}))}

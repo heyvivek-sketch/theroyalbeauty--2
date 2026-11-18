@@ -1,0 +1,3 @@
+import {NextResponse} from 'next/server'; import {db} from '@/lib/db'; import {customerId} from '@/lib/customer-auth';
+export async function GET(){const id=await customerId();if(!id)return NextResponse.json({error:'Unauthorized'},{status:401});return NextResponse.json(await db.customer.findUnique({where:{id},include:{addresses:true}}))}
+export async function PATCH(req:Request){const id=await customerId();if(!id)return NextResponse.json({error:'Unauthorized'},{status:401});const b=await req.json();const c=await db.customer.update({where:{id},data:{name:b.name,email:b.email}});return NextResponse.json(c)}

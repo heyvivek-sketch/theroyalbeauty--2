@@ -1,0 +1,4 @@
+import {NextResponse} from 'next/server'; import {db} from '@/lib/db'; import {isAdmin} from '@/lib/auth';
+export async function GET(){if(!await isAdmin())return NextResponse.json({error:'Unauthorized'},{status:401});return NextResponse.json(await db.coupon.findMany({orderBy:{id:'desc'}}))}
+export async function POST(req:Request){if(!await isAdmin())return NextResponse.json({error:'Unauthorized'},{status:401});const b=await req.json();return NextResponse.json(await db.coupon.create({data:{code:b.code.toUpperCase(),type:b.type,value:Number(b.value),minOrder:Number(b.minOrder||0),maxUses:b.maxUses?Number(b.maxUses):null,expiresAt:b.expiresAt?new Date(b.expiresAt):null}}))}
+export async function PATCH(req:Request){if(!await isAdmin())return NextResponse.json({error:'Unauthorized'},{status:401});const b=await req.json();return NextResponse.json(await db.coupon.update({where:{id:Number(b.id)},data:{active:Boolean(b.active)}}))}
