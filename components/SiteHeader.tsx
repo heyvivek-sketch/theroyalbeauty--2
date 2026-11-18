@@ -1,7 +1,44 @@
 'use client';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+
 export default function SiteHeader(){
- const pathname=usePathname(); if(pathname.startsWith('/admin')) return null;
- return <div className="nav"><div className="container navin"><Link className="logo" href="/">The <span>Royal Beauty</span></Link><nav className="links"><Link href="/services">Services</Link><Link href="/booking">Book now</Link></nav><Link className="btn nav-book" href="/booking">Book a service</Link></div></div>;
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  if(pathname.startsWith('/admin')) return null;
+  const close = () => setOpen(false);
+
+  return (
+    <>
+      <header className="site-header">
+        <div className="container site-header-inner">
+          <Link className="logo" href="/" onClick={close}>The <span>Royal Beauty</span></Link>
+          <div className="site-header-actions">
+            <Link className="btn header-book-btn" href="/booking" onClick={close}>Book a service</Link>
+            <button className={'menu-toggle '+(open ? 'open' : '')} type="button" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} onClick={() => setOpen(v => !v)}>
+              <span></span><span></span><span></span>
+            </button>
+          </div>
+        </div>
+      </header>
+      {open && <>
+        <button className="menu-backdrop" aria-label="Close menu" onClick={close}></button>
+        <aside className="site-menu" aria-label="Main menu">
+          <div className="site-menu-top">
+            <div><div className="menu-eyebrow">THE ROYAL BEAUTY</div><h2>Everything beauty, at home.</h2></div>
+            <button className="menu-close" onClick={close} aria-label="Close menu">×</button>
+          </div>
+          <nav className="site-menu-links">
+            <Link href="/" onClick={close}>Home <span>→</span></Link>
+            <Link href="/services" onClick={close}>Services <span>→</span></Link>
+            <Link href="/booking" onClick={close}>Book a service <span>→</span></Link>
+            <Link href="/customer" onClick={close}>My bookings <span>→</span></Link>
+          </nav>
+          <div className="site-menu-note"><b>Delhi-NCR</b><span>Professional beauty services delivered to your doorstep.</span></div>
+        </aside>
+      </>}
+    </>
+  );
 }
