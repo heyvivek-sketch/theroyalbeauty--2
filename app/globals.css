@@ -112,18 +112,6 @@
   .footer-action b{font-size:9px;letter-spacing:.7px}
 }
 
-/* Quick actions above footer */
-.quick-actions{padding:18px 0;background:#fff}
-.quick-actions-inner{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 10px 35px rgba(50,24,33,.06)}
-.quick-action{min-height:82px;display:flex;align-items:center;justify-content:center;gap:12px;padding:14px 18px;border-right:1px solid var(--line);background:#fff;transition:.18s}
-.quick-action:last-child{border-right:0}
-.quick-action:hover{background:var(--rose-soft)}
-.quick-action-primary{background:#f8e8eb;color:var(--rose)}
-.quick-icon{width:42px;height:42px;border-radius:13px;background:var(--rose-soft);display:grid;place-items:center;font-size:21px;flex:0 0 auto}
-.quick-action b{display:block;font-size:13px;letter-spacing:.7px;text-transform:uppercase}
-.quick-action small{display:block;margin-top:3px;color:var(--muted);font-size:10px}
-@media(max-width:600px){.quick-actions{padding:12px 0}.quick-actions-inner{grid-template-columns:repeat(3,1fr);border-radius:16px}.quick-action{min-height:72px;padding:10px 6px;gap:6px;flex-direction:column}.quick-icon{width:34px;height:34px;border-radius:10px;font-size:17px}.quick-action b{font-size:9px;letter-spacing:.4px}.quick-action small{display:none}}
-
 /* Final mobile footer action bar */
 .footer-actions{position:relative;z-index:20}
 .footer-icon svg{width:30px;height:30px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
