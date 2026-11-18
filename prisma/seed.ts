@@ -97,14 +97,21 @@ async function main() {
     });
   }
 
-  const adminPasswordHash = await bcrypt.hash("Admin@2026", 12);
+  const adminEmail = process.env.ADMIN_EMAIL;
+  const adminPassword = process.env.ADMIN_PASSWORD;
+
+  if (!adminEmail || !adminPassword) {
+    throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD must be set before seeding the admin user.");
+  }
+
+  const adminPasswordHash = await bcrypt.hash(adminPassword, 12);
 
   await db.admin.upsert({
-    where: { email: "admin@theroyalbeauty.in" },
+    where: { email: adminEmail.trim().toLowerCase() },
     update: { passwordHash: adminPasswordHash, active: true },
     create: {
       name: "The Royal Beauty Admin",
-      email: "admin@theroyalbeauty.in",
+      email: adminEmail.trim().toLowerCase(),
       passwordHash: adminPasswordHash,
       role: "ADMIN",
       active: true,
