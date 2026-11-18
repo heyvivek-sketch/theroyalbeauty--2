@@ -1,3 +1,8 @@
-import Link from 'next/link'; import './globals.css';
+import './globals.css';
+import SiteHeader from '@/components/SiteHeader';
+
 export const metadata={title:'GlowAtHome — Beauty Services at Home',description:'Professional beauty services delivered to your doorstep.'};
-export default function RootLayout({children}:{children:React.ReactNode}){return <html lang="en"><body><div className="nav"><div className="container navin"><Link className="logo" href="/">Glow<span>AtHome</span></Link><nav className="links"><Link href="/services">Services</Link><Link href="/booking">Book now</Link><Link href="/admin">Admin</Link></nav><Link className="btn" href="/booking">Book a service</Link></div></div>{children}</body></html>}
+
+export default function RootLayout({children}:{children:React.ReactNode}){
+  return <html lang="en"><body><SiteHeader/>{children}</body></html>;
+}
