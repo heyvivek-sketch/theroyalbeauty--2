@@ -1,25 +1,247 @@
-generator client { provider = "prisma-client-js" }
-datasource db { provider = "postgresql" url = env("DATABASE_URL") }
+generator client {
+  provider = "prisma-client-js"
+}
 
-model Category { id Int @id @default(autoincrement()) name String slug String @unique image String? active Boolean @default(true) sortOrder Int @default(0) createdAt DateTime @default(now()) services Service[] }
-model Service { id Int @id @default(autoincrement()) name String slug String @unique description String @default("") price Int duration Int image String? active Boolean @default(true) sortOrder Int @default(0) categoryId Int category Category @relation(fields:[categoryId], references:[id], onDelete:Cascade) bookingItems BookingItem[] staff StaffService[] createdAt DateTime @default(now()) updatedAt DateTime @updatedAt }
-model Customer { id Int @id @default(autoincrement()) name String? phone String @unique email String? addresses Address[] bookings Booking[] reviews Review[] notifications Notification[] createdAt DateTime @default(now()) updatedAt DateTime @updatedAt }
-model Address { id Int @id @default(autoincrement()) customerId Int customer Customer @relation(fields:[customerId], references:[id], onDelete:Cascade) label String @default("Home") address String city String pincode String lat Float? lng Float? createdAt DateTime @default(now()) bookings Booking[] }
-model Staff { id Int @id @default(autoincrement()) name String phone String @unique email String? passwordHash String? active Boolean @default(true) services StaffService[] bookings Booking[] createdAt DateTime @default(now()) updatedAt DateTime @updatedAt }
-model StaffService { staffId Int staff Staff @relation(fields:[staffId], references:[id], onDelete:Cascade) serviceId Int service Service @relation(fields:[serviceId], references:[id], onDelete:Cascade) @@id([staffId,serviceId]) }
-model Slot { id Int @id @default(autoincrement()) start String end String active Boolean @default(true) sortOrder Int @default(0) bookings Booking[] reservations SlotReservation[] }
-model Booking { id Int @id @default(autoincrement()) bookingNo String @unique customerId Int customer Customer @relation(fields:[customerId], references:[id]) addressId Int address Address @relation(fields:[addressId], references:[id]) staffId Int? staff Staff? @relation(fields:[staffId], references:[id], onDelete:SetNull) slotId Int slot Slot @relation(fields:[slotId], references:[id]) date DateTime status BookingStatus @default(PENDING) paymentStatus PaymentStatus @default(PENDING) paymentId String? total Int discount Int @default(0) couponId Int? coupon Coupon? @relation(fields:[couponId], references:[id], onDelete:SetNull) notes String? items BookingItem[] review Review? reservation SlotReservation? createdAt DateTime @default(now()) updatedAt DateTime @updatedAt @@index([date,slotId,status]) @@index([customerId,createdAt]) }
-model SlotReservation { id Int @id @default(autoincrement()) date DateTime slotId Int slot Slot @relation(fields:[slotId], references:[id], onDelete:Cascade) bookingId Int @unique booking Booking @relation(fields:[bookingId], references:[id], onDelete:Cascade) @@unique([date,slotId]) }
-model BookingItem { id Int @id @default(autoincrement()) bookingId Int booking Booking @relation(fields:[bookingId], references:[id], onDelete:Cascade) serviceId Int service Service @relation(fields:[serviceId], references:[id]) qty Int @default(1) price Int }
-model Coupon { id Int @id @default(autoincrement()) code String @unique type CouponType value Int minOrder Int @default(0) maxUses Int? usedCount Int @default(0) active Boolean @default(true) expiresAt DateTime? bookings Booking[] }
-model Review { id Int @id @default(autoincrement()) customerId Int customer Customer @relation(fields:[customerId], references:[id], onDelete:Cascade) bookingId Int @unique booking Booking @relation(fields:[bookingId], references:[id], onDelete:Cascade) rating Int comment String? approved Boolean @default(false) createdAt DateTime @default(now()) }
-model Otp { id Int @id @default(autoincrement()) phone String codeHash String expiresAt DateTime attempts Int @default(0) createdAt DateTime @default(now()) @@index([phone,expiresAt]) }
-model ServiceArea { id Int @id @default(autoincrement()) city String pincode String? active Boolean @default(true) }
-model Notification { id Int @id @default(autoincrement()) customerId Int customer Customer @relation(fields:[customerId], references:[id], onDelete:Cascade) title String body String channel NotificationChannel readAt DateTime? createdAt DateTime @default(now()) }
-model SiteSetting { id Int @id @default(autoincrement()) key String @unique value String }
-model Banner { id Int @id @default(autoincrement()) title String subtitle String? image String? link String? active Boolean @default(true) sortOrder Int @default(0) }
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
 
-enum BookingStatus { PENDING CONFIRMED ASSIGNED ON_THE_WAY STARTED COMPLETED CANCELLED NO_SHOW }
-enum PaymentStatus { PENDING PAID FAILED REFUNDED }
-enum CouponType { FLAT PERCENT }
-enum NotificationChannel { SMS WHATSAPP EMAIL IN_APP }
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  slug      String    @unique
+  image     String?
+  active    Boolean   @default(true)
+  sortOrder Int       @default(0)
+  createdAt DateTime  @default(now())
+  services  Service[]
+}
+
+model Service {
+  id           Int           @id @default(autoincrement())
+  name         String
+  slug         String        @unique
+  description  String        @default("")
+  price        Int
+  duration     Int
+  image        String?
+  active       Boolean       @default(true)
+  sortOrder    Int           @default(0)
+  categoryId   Int
+  category     Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  bookingItems BookingItem[]
+  staff        StaffService[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Customer {
+  id            Int            @id @default(autoincrement())
+  name          String?
+  phone         String         @unique
+  email         String?
+  addresses     Address[]
+  bookings      Booking[]
+  reviews       Review[]
+  notifications Notification[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Address {
+  id         Int       @id @default(autoincrement())
+  customerId Int
+  customer   Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  label      String    @default("Home")
+  address    String
+  city       String
+  pincode    String
+  lat        Float?
+  lng        Float?
+  createdAt  DateTime  @default(now())
+  bookings   Booking[]
+}
+
+model Staff {
+  id           Int           @id @default(autoincrement())
+  name         String
+  phone        String        @unique
+  email        String?
+  passwordHash String?
+  active       Boolean       @default(true)
+  services     StaffService[]
+  bookings     Booking[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model StaffService {
+  staffId   Int
+  staff     Staff   @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  serviceId Int
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@id([staffId, serviceId])
+}
+
+model Slot {
+  id           Int              @id @default(autoincrement())
+  start        String
+  end          String
+  active       Boolean          @default(true)
+  sortOrder    Int              @default(0)
+  bookings     Booking[]
+  reservations SlotReservation[]
+}
+
+model Booking {
+  id            Int             @id @default(autoincrement())
+  bookingNo     String          @unique
+  customerId    Int
+  customer      Customer        @relation(fields: [customerId], references: [id])
+  addressId     Int
+  address       Address         @relation(fields: [addressId], references: [id])
+  staffId       Int?
+  staff         Staff?          @relation(fields: [staffId], references: [id], onDelete: SetNull)
+  slotId        Int
+  slot          Slot            @relation(fields: [slotId], references: [id])
+  date          DateTime
+  status        BookingStatus   @default(PENDING)
+  paymentStatus PaymentStatus   @default(PENDING)
+  paymentId     String?
+  total         Int
+  discount      Int             @default(0)
+  couponId      Int?
+  coupon        Coupon?         @relation(fields: [couponId], references: [id], onDelete: SetNull)
+  notes         String?
+  items         BookingItem[]
+  review        Review?
+  reservation   SlotReservation?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@index([date, slotId, status])
+  @@index([customerId, createdAt])
+}
+
+model SlotReservation {
+  id        Int      @id @default(autoincrement())
+  date      DateTime
+  slotId    Int
+  slot      Slot     @relation(fields: [slotId], references: [id], onDelete: Cascade)
+  bookingId Int      @unique
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@unique([date, slotId])
+}
+
+model BookingItem {
+  id        Int      @id @default(autoincrement())
+  bookingId Int
+  booking   Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  serviceId Int
+  service   Service  @relation(fields: [serviceId], references: [id])
+  qty       Int      @default(1)
+  price     Int
+}
+
+model Coupon {
+  id        Int        @id @default(autoincrement())
+  code      String     @unique
+  type      CouponType
+  value     Int
+  minOrder  Int        @default(0)
+  maxUses   Int?
+  usedCount Int        @default(0)
+  active    Boolean    @default(true)
+  expiresAt DateTime?
+  bookings  Booking[]
+}
+
+model Review {
+  id         Int      @id @default(autoincrement())
+  customerId Int
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  bookingId  Int      @unique
+  booking    Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  rating     Int
+  comment    String?
+  approved   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+}
+
+model Otp {
+  id         Int      @id @default(autoincrement())
+  phone      String
+  codeHash   String
+  expiresAt  DateTime
+  attempts   Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  @@index([phone, expiresAt])
+}
+
+model ServiceArea {
+  id      Int     @id @default(autoincrement())
+  city    String
+  pincode String?
+  active  Boolean @default(true)
+}
+
+model Notification {
+  id         Int                  @id @default(autoincrement())
+  customerId Int
+  customer   Customer             @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  title      String
+  body       String
+  channel    NotificationChannel
+  readAt     DateTime?
+  createdAt  DateTime             @default(now())
+}
+
+model SiteSetting {
+  id    Int    @id @default(autoincrement())
+  key   String @unique
+  value String
+}
+
+model Banner {
+  id        Int     @id @default(autoincrement())
+  title     String
+  subtitle  String?
+  image     String?
+  link      String?
+  active    Boolean @default(true)
+  sortOrder Int     @default(0)
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  ASSIGNED
+  ON_THE_WAY
+  STARTED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum CouponType {
+  FLAT
+  PERCENT
+}
+
+enum NotificationChannel {
+  SMS
+  WHATSAPP
+  EMAIL
+  IN_APP
+}
