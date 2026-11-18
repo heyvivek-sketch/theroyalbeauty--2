@@ -8,7 +8,7 @@ export default function SiteHeader({settings}:{settings?:Settings}){
  if(pathname.startsWith('/admin')) return null;
  const close=()=>setOpen(false); const brand=settings?.business_name||'The Royal Beauty'; const city=settings?.business_city||'Delhi-NCR';
  return <><header className="site-header"><div className="container site-header-inner">
-  <Link className="logo" href="/" onClick={close}>{brand}</Link><div className="site-header-actions">
+  <Link className="logo" href="/" onClick={close}>{settings?.logo_url ? <img src={settings.logo_url} alt={brand} className="site-logo-image" /> : brand}</Link><div className="site-header-actions">
    <Link className="btn header-book-btn" href="/booking" onClick={close}>Book a service</Link>
    <button className={'menu-toggle '+(open?'open':'')} type="button" aria-label={open?'Close menu':'Open menu'} aria-expanded={open} onClick={()=>setOpen(v=>!v)}><span></span><span></span><span></span></button>
   </div></div></header>
