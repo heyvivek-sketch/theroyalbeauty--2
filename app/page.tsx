@@ -46,23 +46,6 @@ export default async function Home(){
 
   return (
     <main>
-      <section className="quick-actions" aria-label="Quick actions">
-        <div className="container quick-actions-inner">
-          <Link href="/booking" className="quick-action">
-            <span className="quick-icon">🛍</span>
-            <span><b>My Cart</b><small>0 items</small></span>
-          </Link>
-          <a href={whatsapp} className="quick-action" target="_blank" rel="noreferrer">
-            <span className="quick-icon">◔</span>
-            <span><b>WhatsApp</b><small>Chat with us</small></span>
-          </a>
-          <Link href="/booking" className="quick-action quick-action-primary">
-            <span className="quick-icon">▣</span>
-            <span><b>Book now</b><small>Choose a service</small></span>
-          </Link>
-        </div>
-      </section>
-
       <section className="hero">
         <div className="container hero-grid">
           <div>
