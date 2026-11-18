@@ -9,3 +9,34 @@ await db.serviceArea.upsert({where:{id:1},update:{city:'Delhi',pincode:null,acti
 const staff=await db.staff.upsert({where:{phone:'9999999999'},update:{passwordHash:createHash('sha256').update('ChangeMe123!').digest('hex')},create:{name:'Demo Beautician',phone:'9999999999',passwordHash:createHash('sha256').update('ChangeMe123!').digest('hex')}});const first=await db.service.findFirst();if(first)await db.staffService.upsert({where:{staffId_serviceId:{staffId:staff.id,serviceId:first.id}},update:{},create:{staffId:staff.id,serviceId:first.id}});
 }
 main().finally(()=>db.$disconnect());
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
+
+const prisma = new PrismaClient();
+
+async function main() {
+  const passwordHash = await bcrypt.hash("Admin@2026", 12);
+
+  await prisma.admin.upsert({
+    where: {
+      email: "admin@theroyalbeauty.in",
+    },
+    update: {
+      passwordHash,
+      active: true,
+    },
+    create: {
+      name: "The Royal Beauty Admin",
+      email: "admin@theroyalbeauty.in",
+      passwordHash,
+      role: "ADMIN",
+      active: true,
+    },
+  });
+
+  console.log("Admin created successfully");
+}
+
+main()
+  .catch(console.error)
+  .finally(() => prisma.$disconnect());
