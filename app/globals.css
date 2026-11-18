@@ -123,3 +123,19 @@
 .quick-action b{display:block;font-size:13px;letter-spacing:.7px;text-transform:uppercase}
 .quick-action small{display:block;margin-top:3px;color:var(--muted);font-size:10px}
 @media(max-width:600px){.quick-actions{padding:12px 0}.quick-actions-inner{grid-template-columns:repeat(3,1fr);border-radius:16px}.quick-action{min-height:72px;padding:10px 6px;gap:6px;flex-direction:column}.quick-icon{width:34px;height:34px;border-radius:10px;font-size:17px}.quick-action b{font-size:9px;letter-spacing:.4px}.quick-action small{display:none}}
+
+/* Final mobile footer action bar */
+.footer-actions{position:relative;z-index:20}
+.footer-icon svg{width:30px;height:30px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.footer-action{gap:10px}
+.footer-action span:last-child{display:flex;align-items:center;gap:4px}
+@media(max-width:700px){
+  body{padding-bottom:88px}
+  .footer{padding-bottom:0}
+  .footer-actions{position:fixed;left:0;right:0;bottom:0;z-index:100;background:rgba(255,255,255,.97);backdrop-filter:blur(16px);box-shadow:0 -10px 35px rgba(35,18,25,.10)}
+  .footer-action{min-height:88px}
+  .footer-icon svg{width:27px;height:27px}
+  .footer-action b{font-size:10px}
+  .footer-brand{display:none}
+}
+@media(min-width:701px){.footer-actions{max-width:1180px;margin:0 auto;border-left:1px solid var(--line);border-right:1px solid var(--line)}}
