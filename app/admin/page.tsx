@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
 
 type Tab = 'Overview'|'Bookings'|'Customers'|'Services'|'Categories'|'Staff'|'Coupons'|'Slots'|'Areas'|'Reviews'|'Banners'|'Payments'|'Settings'|'Notifications';
 const tabs:{name:Tab;icon:string}[]=[
@@ -18,7 +18,7 @@ const post=(url:string,body:any)=>api(url,{method:'POST',headers:{'Content-Type'
 const patch=(url:string,body:any)=>api(url,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
 
 function Empty({text}:{text:string}){return <div className="empty-state"><div>✦</div><b>{text}</b><span>New records will appear here automatically.</span></div>}
-function Head({title,desc,action}:{title:string;desc?:string;action?:React.ReactNode}){return <div className="admin-section-head"><div><h2>{title}</h2>{desc&&<p>{desc}</p>}</div>{action}</div>}
+function Head({title,desc,action}:{title:string;desc?:string;action?:ReactNode}){return <div className="admin-section-head"><div><h2>{title}</h2>{desc&&<p>{desc}</p>}</div>{action}</div>}
 function Toggle({active,onClick}:{active:boolean;onClick:()=>void}){return <button className={'switch '+(active?'on':'')} onClick={onClick}><span/></button>}
 function Metric({label,value,icon,sub}:{label:string;value:any;icon:string;sub?:string}){return <div className="metric-card"><div className="metric-icon">{icon}</div><div><p>{label}</p><strong>{value}</strong>{sub&&<small>{sub}</small>}</div></div>}
 
