@@ -4,13 +4,28 @@ import { createHash } from "crypto";
 
 const db = new PrismaClient();
 
+const categoryImages: Record<string,string> = {
+  "face-wax":"https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=900&q=85",
+  "threading":"https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=85",
+  "facial":"https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=900&q=85",
+  "honey-wax":"https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=900&q=85",
+  "rica-wax":"https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=900&q=85",
+  "mani-pedi":"https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=85",
+  "pedicure":"https://images.unsplash.com/photo-1607779097040-26e80aa78e66?auto=format&fit=crop&w=900&q=85",
+  "manicure":"https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=900&q=85",
+  "raaga":"https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=85",
+  "bleach":"https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=900&q=85",
+  "massage":"https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=900&q=85",
+  "polishing":"https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=85"
+};
+
 async function main() {
   const categories = [["Face Wax","face-wax"],["Threading","threading"],["Facial","facial"],["Honey Wax","honey-wax"],["Rica Wax","rica-wax"],["Mani-Pedi","mani-pedi"],["Pedicure","pedicure"],["Manicure","manicure"],["Raaga","raaga"],["Bleach","bleach"],["Massage","massage"],["Polishing","polishing"]];
   for (let i=0;i<categories.length;i++) {
     await db.category.upsert({
       where:{slug:categories[i][1]},
-      update:{name:categories[i][0],sortOrder:i,active:true},
-      create:{name:categories[i][0],slug:categories[i][1],sortOrder:i,active:true}
+      update:{name:categories[i][0],sortOrder:i,active:true,image:categoryImages[categories[i][1]]},
+      create:{name:categories[i][0],slug:categories[i][1],sortOrder:i,active:true,image:categoryImages[categories[i][1]]}
     });
   }
 
