@@ -66,3 +66,48 @@
   .footer-action{min-height:100px}
   .footer-action b{font-size:10px}
 }
+
+/* Production media + responsive polish */
+.service-admin-thumb{width:58px;height:58px;border-radius:14px;overflow:hidden;background:var(--rose-soft);display:grid;place-items:center;color:var(--rose);flex:0 0 auto}
+.service-admin-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.category-admin-thumb{width:100%;height:130px;border-radius:13px;object-fit:cover;display:block;margin-bottom:4px}
+.hero-actions{display:flex;gap:12px;margin-top:25px}
+.hero-photo{min-height:520px;border-radius:34px;overflow:hidden;position:relative;box-shadow:0 30px 90px rgba(78,39,50,.16);background:#f1d9df}
+.hero-photo img{width:100%;height:100%;min-height:520px;object-fit:cover;display:block}
+.hero-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(38,20,27,.22) 100%)}
+.hero-rating{position:absolute;z-index:2;left:28px;right:28px;bottom:28px;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);padding:20px;border-radius:22px;display:grid;gap:5px}
+.hero-rating b{font-size:19px}.hero-rating span{color:var(--muted);line-height:1.4}
+.cat-img img,.card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s}
+.cat:hover img,.card:hover img{transform:scale(1.035)}
+.service-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-top:14px}
+.service-arrow{width:38px;height:38px;border-radius:50%;background:var(--rose-soft);color:var(--rose);display:grid;place-items:center;font-weight:900}
+.admin-top-actions{display:none!important}
+.admin-topbar{height:76px;padding:0 30px}
+@media(max-width:800px){
+  .admin-topbar{height:68px;padding:0 15px}
+  .admin-topbar h1{font-size:22px}
+  .admin-content{padding:18px 14px}
+  .welcome-card{border-radius:20px;padding:22px}
+  .metric-grid{gap:10px}
+  .metric-card{min-width:0}
+  .admin-panel{overflow:hidden}
+  .entity-row{flex-wrap:wrap}
+  .service-admin-thumb{width:52px;height:52px}
+  .hero-grid{grid-template-columns:1fr}
+  .hero-photo,.hero-photo img{min-height:350px}
+  .hero-actions{flex-direction:column}
+  .hero-actions .btn{width:100%}
+}
+@media(max-width:520px){
+  .hero{padding:42px 0 50px}
+  .hero h1{letter-spacing:-1.5px}
+  .hero-photo,.hero-photo img{min-height:320px}
+  .hero-rating{left:16px;right:16px;bottom:16px;padding:15px;border-radius:18px}
+  .hero-rating b{font-size:16px}
+  .hero-rating span{font-size:13px}
+  .cat-img{height:185px}
+  .card-img{height:220px}
+  .footer-actions{grid-template-columns:repeat(3,1fr)}
+  .footer-action{min-height:96px}
+  .footer-action b{font-size:9px;letter-spacing:.7px}
+}
