@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 
 const tabs = [
   ['Overview','⌂'],['Bookings','▣'],['Services','✦'],['Categories','◈'],
@@ -15,7 +15,7 @@ export default function Admin(){
  const [authed,setAuthed]=useState<boolean|null>(null),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[error,setError]=useState(''),[tab,setTab]=useState('Overview'),[data,setData]=useState<any>(null),[mobileNav,setMobileNav]=useState(false);
  async function load(){try{setData(await json('/api/admin/overview'));setAuthed(true)}catch{setAuthed(false)}}
  useEffect(()=>{load()},[]);
- async function login(e:React.FormEvent){e.preventDefault();setError('');try{await json('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});await load()}catch(e:any){setError(e.message||'Invalid email or password')}}
+ async function login(e:FormEvent){e.preventDefault();setError('');try{await json('/api/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});await load()}catch(e:any){setError(e.message||'Invalid email or password')}}
  if(authed===null)return <div className="admin-loading"><div className="admin-spinner"/><p>Loading admin panel…</p></div>;
  if(!authed)return <main className="admin-login"><div className="login-decoration"/><div className="login-card"><div className="admin-brand"><span>Glow</span>AtHome <small>ADMIN</small></div><div className="login-icon">✦</div><div className="eyebrow">Control center</div><h1>Welcome back</h1><p className="muted">Manage bookings, services, staff and your storefront from one place.</p><form className="form" onSubmit={login}><label>Email<input className="input" type="email" required placeholder="admin@theroyalbeauty.in" value={email} onChange={e=>setEmail(e.target.value)}/></label><label>Password<input className="input" type="password" required placeholder="••••••••" value={password} onChange={e=>setPassword(e.target.value)}/></label>{error&&<div className="admin-error">{error}</div>}<button className="btn admin-login-btn">Sign in to dashboard</button></form></div></main>;
 
