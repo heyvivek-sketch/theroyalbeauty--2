@@ -15,3 +15,4 @@ export default async function Home(){
       <p className="muted">Appointments: {hours}</p>
     </div>
   </footer></main>
+}
