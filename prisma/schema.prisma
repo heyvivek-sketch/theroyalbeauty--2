@@ -53,6 +53,7 @@ model Customer {
   name          String?
   phone         String         @unique
   email         String?
+  passwordHash  String?
   addresses     Address[]
   bookings      Booking[]
   reviews       Review[]
