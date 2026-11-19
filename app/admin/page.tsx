@@ -172,17 +172,35 @@ function Payments(){const [items,setItems]=useState<any[]>([]);async function lo
 
 function Settings(){
  const defaults=[['business_name','Business name','Name shown across the website','The Royal Beauty'],['business_city','Service city','Location shown to customers','Delhi-NCR'],['hero_tagline','Homepage headline','Main hero headline','Your beauty. Your home. Your time.'],['short_description','Short description','Homepage/menu description','Professional beauty and self-care services delivered to your home. Pick a service, choose your slot and relax.'],['opening_hours','Opening hours','Customer appointment hours','9:00 AM – 7:30 PM'],['logo_url','Logo URL','Storefront logo image URL',''],['whatsapp_url','WhatsApp URL','WhatsApp button destination','https://wa.me/919999999999']];
- const [items,setItems]=useState<any[]>([]),[form,setForm]=useState<Record<string,string>>({promo_enabled:'true',promo_text:''});
- async function load(){const rows=await api('/api/admin/settings').catch(()=>[]);setItems(rows);const next:any={};for(const [k,, ,v] of defaults)next[k]=v;for(const x of rows)next[x.key]=x.value;setForm(next)}
+ const [items,setItems]=useState<any[]>([]),[form,setForm]=useState<Record<string,string>>({promo_enabled:'true',promo_text:''}),[editing,setEditing]=useState<any>(null);
+ async function load(){const rows=await api('/api/admin/settings').catch(()=>[]);setItems(rows);const next:any={promo_enabled:'true',promo_text:''};for(const [k,,,v] of defaults)next[k]=v;for(const x of rows)next[x.key]=x.value;setForm(next)}
  useEffect(()=>{load()},[]);
- async function save(key:string){await post('/api/admin/settings',{key,value:form[key]||''});load()}
+ async function save(key:string){try{await post('/api/admin/settings',{key,value:form[key]||''});load()}catch(err:any){alert(err.message)}}
+ async function saveAdvanced(e:FormEvent){e.preventDefault();if(!editing)return;try{await post('/api/admin/settings',{key:String(editing.key).trim(),value:String(editing.value??'')});setEditing(null);load()}catch(err:any){alert(err.message)}}
+ async function deleteAdvanced(item:any){if(!confirm('Delete this setting? This cannot be undone.'))return;try{await api('/api/admin/settings?key='+encodeURIComponent(item.key),{method:'DELETE'});load()}catch(err:any){alert(err.message)}}
+ const advanced=items.filter((x:any)=>!defaults.some(d=>d[0]===x.key)&&x.key!=='promo_enabled'&&x.key!=='promo_text');
  return <><Head title="Store settings" desc="Control your storefront from the database. No deployment environment variable is needed for these settings."/>
  <div className="admin-panel form-panel"><div className="promo-settings">
-  <div className="promo-settings-copy"><div><b>Top promotional banner</b><span>Show or hide the sale banner above the website header without redeploying.</span></div><Toggle active={form.promo_enabled!=='false'} onClick={()=>{const next=form.promo_enabled==='false'?'true':'false';setForm({...form,promo_enabled:next});post('/api/admin/settings',{key:'promo_enabled',value:next}).then(load).catch(()=>{})}}/></div>
+  <div className="promo-settings-copy"><div><b>Promotional banner</b><span>Show or hide the sale banner above the website header without redeploying.</span></div><Toggle active={form.promo_enabled!=='false'} onClick={()=>{const next=form.promo_enabled==='false'?'true':'false';setForm({...form,promo_enabled:next});post('/api/admin/settings',{key:'promo_enabled',value:next}).then(load).catch(()=>{})}}/></div>
   <label className="promo-text-field">Promotion text<input className="input" value={form.promo_text||''} onChange={e=>setForm({...form,promo_text:e.target.value})}/><small>Example: ₹100 OFF on Any Beauty Service | Code: BEAUTY100 | Minimum Service Value: ₹1,299</small></label>
   <button className="btn" onClick={()=>save('promo_text')}>Save promotion</button>
  </div>
  <div className="settings-grid">{defaults.map(([key,label,help])=><div className="setting-card" key={key}><div><b>{label}</b><span>{help}</span></div><input className="input" value={form[key]||''} onChange={e=>setForm({...form,[key]:e.target.value})}/><button className="btn" onClick={()=>save(key)}>Save</button></div>)}</div></div>
- <div className="admin-panel"><Head title="Advanced settings" desc="Other database-backed settings can also be managed here."/><div className="admin-list">{items.filter((x:any)=>!defaults.some(d=>d[0]===x.key)).map(x=><div className="entity-row" key={x.id}><div className="entity-avatar">⚙</div><div className="entity-main"><b>{x.key}</b><span>{x.value}</span></div><button className="text-btn" onClick={async()=>{const v=prompt(x.key,x.value);if(v===null)return;await post('/api/admin/settings',{key:x.key,value:v});load()}}>Edit</button></div>)}</div></div></>
+ <div className="admin-panel"><Head title="Advanced settings" desc="Other database-backed settings can also be managed here."/>
+ {advanced.length===0?<Empty text="No advanced settings found."/>:<div className="admin-list">{advanced.map(x=><div className="entity-row" key={x.id}>
+  <div className="entity-avatar">⚙</div><div className="entity-main"><b>{x.key}</b><span>{x.value}</span></div>
+  <button className="text-btn" onClick={()=>setEditing({...x})}>Edit</button>
+  <button className="text-btn danger-text-btn" onClick={()=>deleteAdvanced(x)}>Delete</button>
+ </div>)}</div>}
+ </div>
+ {editing&&<div className="admin-modal-backdrop" onClick={()=>setEditing(null)}><div className="admin-edit-modal" onClick={e=>e.stopPropagation()}>
+  <div className="admin-modal-head"><div><span className="eyebrow">ADVANCED SETTING</span><h3>Edit setting</h3><p>Change the setting key or value and save it to the database.</p></div><button className="admin-modal-close" onClick={()=>setEditing(null)}>×</button></div>
+  <form className="form" onSubmit={saveAdvanced}>
+   <label>Setting key<input className="input" required value={editing.key||''} onChange={e=>setEditing({...editing,key:e.target.value})}/></label>
+   <label>Value<textarea className="input textarea" rows={5} required value={editing.value??''} onChange={e=>setEditing({...editing,value:e.target.value})}/></label>
+   <div className="admin-modal-actions"><button type="button" className="btn secondary-btn" onClick={()=>setEditing(null)}>Cancel</button><button className="btn">Save setting changes</button></div>
+  </form>
+ </div></div>}
+ </>}
 }
 function Notifications(){const [title,setTitle]=useState(''),[body,setBody]=useState(''),[sending,setSending]=useState(false),[done,setDone]=useState('');async function send(e:FormEvent){e.preventDefault();setSending(true);setDone('');try{const r=await post('/api/admin/notifications',{title,body});setDone(r?.message||'Notification sent successfully');setTitle('');setBody('')}catch(err:any){alert(err.message)}finally{setSending(false)}}return <><Head title="Notifications" desc="Send an in-app announcement to your customers."/><div className="admin-panel form-panel narrow"><form className="form" onSubmit={send}><label>Title<input className="input" required placeholder="Weekend beauty offer" value={title} onChange={e=>setTitle(e.target.value)}/></label><label>Message<textarea className="input textarea" rows={5} required placeholder="Your message…" value={body} onChange={e=>setBody(e.target.value)}/></label>{done&&<div className="notice">{done}</div>}<button className="btn" disabled={sending}>{sending?'Sending…':'Send notification'}</button></form></div></>}
