@@ -93,7 +93,7 @@ export default async function Home(){
 
       <section className="beauty-faq"><div className="container">
         <div className="beauty-section-heading"><div className="beauty-script-kicker">Need to know?</div><h2>Frequently Asked Question</h2></div>
-        ${[
+        {[
           ['Why Choose Salon At Home Services?','Enjoy professional beauty care in the comfort of your home without travel, waiting rooms or salon queues.'],
           ['Which locations do you serve?','We currently focus on '+city+'. Available service areas and pincodes are managed by our team.'],
           ['What are your appointment timings?','Appointments are available every day during '+hours+'.'],
