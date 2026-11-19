@@ -2,8 +2,13 @@ import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import { bookingSchema } from '@/lib/validation';
+import { ZodError } from 'zod';
 
 function errorMessage(error: unknown) {
+  if (error instanceof ZodError) {
+    const first = error.issues[0];
+    return first ? `${String(first.path.join('.'))}: ${first.message}` : 'Please check your booking details and try again.';
+  }
   if (!(error instanceof Error)) return 'Could not create booking. Please try again.';
 
   const code = (error as Error & { code?: string }).code;
@@ -16,6 +21,9 @@ function errorMessage(error: unknown) {
   }
   if (code === 'P2003') return 'Some booking information is invalid. Please check your details and try again.';
   if (code === 'P2025') return 'The selected slot or booking information is no longer available. Please refresh and try again.';
+  if (code === 'P2021') return 'Booking service is not fully configured yet. Please contact the administrator.';
+  if (code === 'P1001' || code === 'P1002' || code === 'P1017') return 'Booking service is temporarily unavailable. Please try again in a moment.';
+  if (code === 'P2034') return 'This booking was processed at the same time as another request. Please try again.';
   if (error.message === 'SLOT_ALREADY_BOOKED') return 'That slot was just booked. Please choose another time slot.';
   return 'Could not create booking. Please check your details and try again.';
 }
