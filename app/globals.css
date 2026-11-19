@@ -948,3 +948,65 @@
     justify-content:center;
   }
 }
+
+
+/* Contact CTA — premium Royal Beauty theme */
+.info-actions{
+  display:flex;
+  align-items:stretch;
+  gap:14px;
+  padding-top:30px;
+  padding-bottom:8px;
+}
+.info-actions .beauty-book-btn,
+.info-actions .beauty-call-btn{
+  min-height:58px;
+  min-width:210px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  border-radius:16px;
+  padding:15px 26px;
+  font-size:15px;
+  font-weight:900;
+  letter-spacing:.2px;
+  transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+}
+.info-actions .beauty-book-btn{
+  background:linear-gradient(135deg,#bd5d74 0%,#c96880 100%);
+  color:#fff;
+  border:1px solid #bd5d74;
+  box-shadow:0 12px 28px rgba(189,93,116,.20);
+}
+.info-actions .beauty-book-btn span{
+  font-size:25px;
+  line-height:.7;
+}
+.info-actions .beauty-call-btn{
+  background:#fff;
+  color:#bd5d74;
+  border:1.5px solid #bd5d74;
+  box-shadow:0 8px 22px rgba(60,30,40,.06);
+}
+.info-actions .beauty-book-btn:hover,
+.info-actions .beauty-call-btn:hover{
+  transform:translateY(-2px);
+}
+.info-actions .beauty-call-btn:hover{
+  background:#fff5f7;
+  box-shadow:0 12px 28px rgba(189,93,116,.12);
+}
+@media(max-width:700px){
+  .info-actions{
+    gap:12px;
+    padding-top:25px;
+  }
+  .info-actions .beauty-book-btn,
+  .info-actions .beauty-call-btn{
+    width:100%;
+    min-height:56px;
+    border-radius:15px;
+    font-size:14px;
+  }
+}
