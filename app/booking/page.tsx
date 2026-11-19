@@ -10,7 +10,7 @@ function TagIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m
 
 export default function Booking(){
   const [services,setServices]=useState<any[]>([]),[slots,setSlots]=useState<any[]>([]),[form,setForm]=useState<any>({serviceIds:[],date:'',slotId:'',name:'',phone:'',email:'',password:'',address:'',city:'Delhi',pincode:'',notes:'',coupon:''}),[coupon,setCoupon]=useState<any>(null),[msg,setMsg]=useState(''),[submitting,setSubmitting]=useState(false),[rememberDetails,setRememberDetails]=useState(true);
-  useEffect(()=>{fetch('/api/services').then(r=>r.json()).then(setServices);const d=new Date(Date.now()+86400000).toISOString().slice(0,10);try{const saved=JSON.parse(localStorage.getItem('trb_booking_profile')||'null');setForm((x:any)=>({...x,date:d,...(saved||{})}));}catch{setForm((x:any)=>({...x,date:d}))}},[]);
+  useEffect(()=>{fetch('/api/services').then(r=>r.json()).then(setServices);const d=new Date(Date.now()+86400000).toISOString().slice(0,10);try{const saved=JSON.parse(localStorage.getItem('trb_booking_profile')||'null');const ids=(new URLSearchParams(window.location.search).get('serviceIds')||'').split(',').filter(Boolean).map(Number).filter(Boolean);const single=Number(new URLSearchParams(window.location.search).get('service')||0);setForm((x:any)=>({...x,date:d,...(saved||{}),serviceIds:ids.length?ids:(single?[single]:x.serviceIds)}));}catch{setForm((x:any)=>({...x,date:d}))}},[]);
   useEffect(()=>{if(form.date)fetch('/api/slots?date='+form.date).then(r=>r.json()).then(setSlots)},[form.date]);
   const selected=useMemo(()=>services.filter(s=>form.serviceIds.includes(s.id)),[services,form.serviceIds]);
   const subtotal=selected.reduce((n,s)=>n+s.price,0),total=coupon?.total??subtotal;
