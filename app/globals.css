@@ -1322,3 +1322,106 @@ body{background:#fbf8f1;color:var(--ink)}
   .beauty-how-card h3{font-size:15px}
   .beauty-how-card p{font-size:11px}
 }
+
+
+/* FINAL MOBILE OVERRIDE — How It Works */
+.beauty-home .beauty-how .beauty-how-grid{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:14px !important;
+}
+.beauty-home .beauty-how .beauty-how-card{
+  display:flex !important;
+  flex-direction:row !important;
+  align-items:center !important;
+  min-width:0 !important;
+  min-height:136px !important;
+  width:100% !important;
+  box-sizing:border-box !important;
+  padding:18px !important;
+  margin:0 !important;
+  text-align:left !important;
+  gap:15px !important;
+}
+.beauty-home .beauty-how .beauty-how-icon{
+  display:grid !important;
+  place-items:center !important;
+  flex:0 0 62px !important;
+  width:62px !important;
+  height:62px !important;
+  margin:0 !important;
+  font-size:0 !important;
+}
+.beauty-home .beauty-how .beauty-how-icon svg{
+  width:29px !important;
+  height:29px !important;
+  max-width:none !important;
+}
+.beauty-home .beauty-how .beauty-how-content{
+  display:block !important;
+  flex:1 1 auto !important;
+  width:auto !important;
+  min-width:0 !important;
+}
+.beauty-home .beauty-how .beauty-how-card h3{
+  display:block !important;
+  width:auto !important;
+  margin:0 0 6px !important;
+  font-size:16px !important;
+  line-height:1.25 !important;
+  white-space:normal !important;
+}
+.beauty-home .beauty-how .beauty-how-card p{
+  display:block !important;
+  width:auto !important;
+  max-width:none !important;
+  margin:0 !important;
+  font-size:12px !important;
+  line-height:1.5 !important;
+  white-space:normal !important;
+}
+@media(max-width:900px){
+  .beauty-home .beauty-how .beauty-how-grid{
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+  }
+  .beauty-home .beauty-how .beauty-how-card{
+    min-height:92px !important;
+    padding:14px 16px !important;
+    gap:14px !important;
+  }
+  .beauty-home .beauty-how .beauty-how-icon{
+    flex:0 0 56px !important;
+    width:56px !important;
+    height:56px !important;
+  }
+  .beauty-home .beauty-how .beauty-how-icon svg{
+    width:26px !important;
+    height:26px !important;
+  }
+  .beauty-home .beauty-how .beauty-how-card h3{
+    font-size:16px !important;
+  }
+  .beauty-home .beauty-how .beauty-how-card p{
+    font-size:11.5px !important;
+    line-height:1.45 !important;
+  }
+}
+@media(max-width:420px){
+  .beauty-home .beauty-how .beauty-how-card{
+    min-height:84px !important;
+    padding:12px 14px !important;
+    gap:12px !important;
+  }
+  .beauty-home .beauty-how .beauty-how-icon{
+    flex:0 0 52px !important;
+    width:52px !important;
+    height:52px !important;
+  }
+  .beauty-home .beauty-how .beauty-how-card h3{
+    font-size:15px !important;
+  }
+  .beauty-home .beauty-how .beauty-how-card p{
+    font-size:11px !important;
+  }
+}
