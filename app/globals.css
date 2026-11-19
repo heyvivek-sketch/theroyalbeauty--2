@@ -1053,3 +1053,79 @@
  .banner-preview-copy{padding:25px 20px}
  .banner-preview-copy b{font-size:27px}
 }
+
+
+/* ===== Royal Beauty reference palette: cocoa brown / ivory / dusty pink ===== */
+:root{
+  --ink:#2b1d20;
+  --muted:#8a777b;
+  --rose:#b97886;
+  --rose2:#d39aa5;
+  --rose-soft:#f7e8eb;
+  --cream:#fbf8f1;
+  --line:#e6d9d4;
+  --panel:#fffdf9;
+  --bg:#f7f3ee;
+  --shadow:0 18px 55px rgba(56,31,35,.09);
+}
+body{background:#fbf8f1;color:var(--ink)}
+.btn{background:#b97886}
+.btn.secondary{background:#fffdf9;color:#2b1d20;border-color:#e6d9d4}
+.hero{background:linear-gradient(115deg,#fbf8f1,#f4e6e5)}
+.hero-card{background:linear-gradient(145deg,#7a4f55,#c18a94 52%,#f7e9e5)}
+.footer{background:#2b1d20}
+.notice{background:#f7e8eb;border-color:#e5c6cc}
+.input:focus{border-color:#b97886;box-shadow:0 0 0 4px rgba(185,120,134,.11)}
+/* storefront */
+.beauty-home{background:#fbf8f1}
+.beauty-site-header{background:#fbf8f1;border-bottom:1px solid #e6d9d4;box-shadow:0 5px 18px rgba(56,31,35,.08)}
+.beauty-call-us{border-color:#d6a1aa;color:#a96676;background:#fffdf9}
+.beauty-brand{color:#3a2529}
+.beauty-menu{background:#fffdf9;border-color:#e6d9d4}
+.beauty-hero{background:#2b1d20}
+.beauty-hero-shade{background:linear-gradient(90deg,rgba(43,29,32,.92) 0%,rgba(43,29,32,.68) 38%,rgba(43,29,32,.18) 68%,rgba(43,29,32,.05) 100%)}
+.beauty-hero-copy h1{color:#fffaf5}
+.beauty-hero-copy p{color:#f1e7e2}
+.beauty-script-kicker{color:#d39aa5}
+.beauty-hero-badge{background:#fffaf5;border-color:#d39aa5;box-shadow:0 8px 30px rgba(185,120,134,.16)}
+.beauty-hero-badge b{background:#b97886;color:#fff}
+.beauty-hero-badge span{color:#6e4d54}
+.beauty-book-btn{background:#b97886;border-color:#e3b6be;box-shadow:0 8px 18px rgba(74,39,45,.24)}
+.beauty-rating-strip{background:#d9a1a8;color:#2b1d20}
+.beauty-stars{color:#fff4d6}
+.beauty-section{background:#fbf8f1}
+.beauty-section-heading h2{color:#2b1d20}
+.beauty-section-heading .eyebrow{color:#a96877}
+.beauty-category-card{background:#efe4df;box-shadow:0 8px 30px rgba(56,31,35,.08)}
+.beauty-category-card h3{color:#fffaf5;text-shadow:0 2px 15px rgba(43,29,32,.45)}
+.beauty-view-all{background:#b97886;box-shadow:0 10px 25px rgba(185,120,134,.2)}
+.beauty-how{background:#f2e8e3}
+.beauty-how-icon{background:#fffdf9;color:#9b6571;border:1px solid #e6d9d4}
+.beauty-how-card h3{color:#2b1d20}
+.beauty-how-card p{color:#8a777b}
+.beauty-services{background:#fbf8f1}
+.beauty-service-card{border-color:#e6d9d4;background:#fffdf9}
+.beauty-service-body b{color:#b97886}
+.beauty-trust{background:#fffdf9}
+.beauty-trust-icon{color:#b97886}
+.beauty-faq{background:#fbf8f1}
+.beauty-faq-item{border-color:#e6d9d4}
+.beauty-faq-item summary{color:#9f6876}
+.beauty-faq-item summary span{color:#b97886}
+.beauty-contact-cta{background:#ead0d0}
+.beauty-call-btn{border-color:#b97886;color:#9f6876;background:#fffdf9}
+.beauty-book-btn.light{background:#b97886;border-color:#b97886}
+.beauty-footer{background:#2b1d20}
+.beauty-footer-col h3:after{background:#b97886}
+.beauty-footer .footer-actions{background:#fffdf9}
+.beauty-footer .footer-action{color:#8c6570}
+.beauty-footer .footer-action-highlight{background:#f3e0e3;color:#b97886}
+.beauty-copyright{border-color:#49363a}
+.beauty-copyright span{color:#d39aa5}
+/* bottom mobile navigation */
+.footer-action-highlight{background:#f3e0e3;color:#b97886}
+.footer-action:hover{background:#f8eeeb;color:#b97886}
+/* hero slider controls */
+.beauty-hero-arrow{border-color:rgba(255,250,245,.55);background:rgba(255,250,245,.78);color:#3a2529}
+.beauty-hero-dot{background:rgba(255,250,245,.48)}
+.beauty-hero-dot.is-active{background:#d39aa5}
