@@ -129,7 +129,7 @@ function Categories(){
  const [items,setItems]=useState<any[]>([]),[name,setName]=useState(''),[slug,setSlug]=useState(''),[image,setImage]=useState(''),[editing,setEditing]=useState<any>(null);
  async function load(){setItems(await api('/api/admin/categories').catch(()=>[]))}
  useEffect(()=>{load()},[]);
- async function saveEdit(e:FormEvent){e.preventDefault();try{await patch('/api/admin/categories',{id:editing.id,name:editing.name,slug:editing.slug,image:editing.image,active:editing.active});setEditing(null);load()}catch(err:any){alert(err.message)}}
+ async function saveEdit(e:FormEvent){e.preventDefault();try{await patch('/api/admin/categories',{id:editing.id,name:editing.name,slug:editing.slug,image:editing.image,active:editing.active,sortOrder:editing.sortOrder});setEditing(null);load()}catch(err:any){alert(err.message)}}
  return <><Head title="Categories" desc="Create and fully edit customer-facing service categories."/>
  <div className="admin-panel form-panel"><form className="form grid2" onSubmit={async e=>{e.preventDefault();try{await post('/api/admin/categories',{name,slug,image});setName('');setSlug('');setImage('');load()}catch(err:any){alert(err.message)}}}>
   <label>Category name<input className="input" required placeholder="Facial" value={name} onChange={e=>setName(e.target.value)}/></label>
@@ -147,8 +147,9 @@ function Categories(){
    <label>Category name<input className="input" required value={editing.name||''} onChange={e=>setEditing({...editing,name:e.target.value})}/></label>
    <label>Slug<input className="input" required value={editing.slug||''} onChange={e=>setEditing({...editing,slug:e.target.value})}/></label>
    <label className="full">Image URL<input className="input" value={editing.image||''} placeholder="https://..." onChange={e=>setEditing({...editing,image:e.target.value})}/></label>
+   <label>Sort order<input className="input" type="number" min="0" value={editing.sortOrder??0} onChange={e=>setEditing({...editing,sortOrder:e.target.value})}/></label>
    <label className="admin-check"><input type="checkbox" checked={!!editing.active} onChange={e=>setEditing({...editing,active:e.target.checked})}/> Active on website</label>
-   {editing.image&&<div className="edit-image-preview"><img src={editing.image} alt="Category preview"/></div>}
+   {editing.image&&<div className="edit-image-preview"><img src={editing.image} alt="Category preview"/></div>
    <div className="admin-modal-actions"><button type="button" className="btn secondary-btn" onClick={()=>setEditing(null)}>Cancel</button><button className="btn">Save category changes</button></div>
   </form>
  </div></div>}
