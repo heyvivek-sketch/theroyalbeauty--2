@@ -9,14 +9,14 @@ function ClockIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><circle 
 function TagIcon(){return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 5 9-1 7 7-8 8-7-7V5Z"/><circle cx="8.5" cy="8.5" r="1"/></svg>}
 
 export default function Booking(){
-  const [services,setServices]=useState<any[]>([]),[slots,setSlots]=useState<any[]>([]),[form,setForm]=useState<any>({serviceIds:[],date:'',slotId:'',name:'',phone:'',email:'',password:'',address:'',city:'Delhi',pincode:'',notes:'',coupon:''}),[coupon,setCoupon]=useState<any>(null),[msg,setMsg]=useState('');
+  const [services,setServices]=useState<any[]>([]),[slots,setSlots]=useState<any[]>([]),[form,setForm]=useState<any>({serviceIds:[],date:'',slotId:'',name:'',phone:'',email:'',password:'',address:'',city:'Delhi',pincode:'',notes:'',coupon:''}),[coupon,setCoupon]=useState<any>(null),[msg,setMsg]=useState(''),[submitting,setSubmitting]=useState(false);
   useEffect(()=>{fetch('/api/services').then(r=>r.json()).then(setServices);const d=new Date(Date.now()+86400000).toISOString().slice(0,10);setForm((x:any)=>({...x,date:d}))},[]);
   useEffect(()=>{if(form.date)fetch('/api/slots?date='+form.date).then(r=>r.json()).then(setSlots)},[form.date]);
   const selected=useMemo(()=>services.filter(s=>form.serviceIds.includes(s.id)),[services,form.serviceIds]);
   const subtotal=selected.reduce((n,s)=>n+s.price,0),total=coupon?.total??subtotal;
   function toggle(id:number){setForm((x:any)=>({...x,serviceIds:x.serviceIds.includes(id)?x.serviceIds.filter((v:number)=>v!==id):[...x.serviceIds,id]}));setCoupon(null)}
   async function applyCoupon(){if(!form.coupon)return;const r=await fetch('/api/coupons',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:form.coupon,subtotal})});setCoupon(await r.json())}
-  async function submit(e:any){e.preventDefault();setMsg('Booking your appointment…');const r=await fetch('/api/bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...form,slotId:Number(form.slotId)})});const j=await r.json();if(!r.ok){setMsg(j.error||'Could not book');return}location.href='/booking/success?booking='+j.bookingNo+'&total='+j.total}
+  async function submit(e:any){e.preventDefault();if(submitting)return;setSubmitting(true);setMsg('Booking your appointment…');try{const r=await fetch('/api/bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...form,slotId:Number(form.slotId)})});const j=await r.json().catch(()=>({}));if(!r.ok){setMsg(j.error||'Could not create booking. Please check your details and try again.');setSubmitting(false);return}setMsg('Booking confirmed. Redirecting…');location.href='/booking/success?booking='+encodeURIComponent(j.bookingNo)+'&total='+encodeURIComponent(j.total)}catch{setMsg('Booking service is temporarily unavailable. Please try again in a moment.');setSubmitting(false)}}
 
   return <main className="booking-page">
     <div className="booking-shell">
@@ -78,7 +78,7 @@ export default function Booking(){
             <div className="summary-line"><span>Subtotal</span><b>₹{subtotal.toLocaleString('en-IN')}</b></div>
             {coupon?.valid&&<div className="summary-line discount"><span>Discount</span><b>-₹{coupon.discount.toLocaleString('en-IN')}</b></div>}
             <div className="summary-total"><span>Total</span><strong>₹{total.toLocaleString('en-IN')}</strong></div>
-            <button className="btn booking-confirm" disabled={!form.serviceIds.length||!form.slotId}>Confirm booking <span>→</span></button>
+            <button className="btn booking-confirm" disabled={submitting||!form.serviceIds.length||!form.slotId}>{submitting?'Booking…':'Confirm booking'} <span>{submitting?'…':'→'}</span></button>
             {msg&&<p className="booking-message">{msg}</p>}
           </aside>
         </section>
