@@ -2,12 +2,14 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { useCart } from './CartProvider';
 
 type Settings = Record<string, string>;
 
 export default function SiteHeader({settings}:{settings?:Settings}){
  const pathname=usePathname();
  const [open,setOpen]=useState(false);
+ const {count}=useCart();
  if(pathname.startsWith('/admin')) return null;
  const close=()=>setOpen(false);
  const brand=settings?.business_name||'The Royal Beauty';
@@ -23,6 +25,9 @@ export default function SiteHeader({settings}:{settings?:Settings}){
      {settings?.logo_url ? <img src={settings.logo_url} alt={brand} className="site-logo-image" /> : brand}
     </Link>
     <div className="site-header-actions">
+     <Link className="header-cart-link" href="/cart" onClick={close} aria-label={`My cart${count ? `, ${count} item${count===1?'':'s'} ` : ''}`}>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.1 10.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 1.9-1.4L20 8H6"/><circle cx="9" cy="20" r="1.2"/><circle cx="18" cy="20" r="1.2"/></svg><span>Cart</span>{count>0&&<b>{count}</b>}
+     </Link>
      <Link className="btn header-book-btn" href="/booking" onClick={close}>Book a service</Link>
      <button className={'menu-toggle '+(open?'open':'')} type="button" aria-label={open?'Close menu':'Open menu'} aria-expanded={open} onClick={()=>setOpen(v=>!v)}>
       <span></span><span></span><span></span>
