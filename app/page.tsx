@@ -39,7 +39,6 @@ export default async function Home(){
 
   return (
     <main className="beauty-home">
-      <div className="promo-strip">{promo}</div>
       <section className="beauty-hero">
         <div className="beauty-hero-image"><img src={heroImage} alt={banner?.title||brand+' at-home beauty services'} /><div className="beauty-hero-shade"/></div>
         <div className="container beauty-hero-content">
