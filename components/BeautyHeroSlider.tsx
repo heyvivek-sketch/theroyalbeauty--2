@@ -40,7 +40,7 @@ const fallbackSlides: Slide[] = [
 ];
 
 export default function BeautyHeroSlider({ slides = [] }: { slides?: Slide[] }) {
-  const items = slides.length ? slides : fallbackSlides;
+  const items = slides.length >= 2 ? slides : slides.length === 1 ? [slides[0], ...fallbackSlides.slice(1)] : fallbackSlides;
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [touchStart, setTouchStart] = useState<number | null>(null);
