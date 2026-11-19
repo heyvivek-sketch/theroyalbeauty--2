@@ -3,6 +3,7 @@ import { db } from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import { bookingSchema } from '@/lib/validation';
 import { ZodError } from 'zod';
+import { Prisma } from '@prisma/client';
 
 function errorMessage(error: unknown) {
   if (error instanceof ZodError) {
@@ -23,7 +24,12 @@ function errorMessage(error: unknown) {
   if (code === 'P2025') return 'The selected slot or booking information is no longer available. Please refresh and try again.';
   if (code === 'P2021') return 'Booking service is not fully configured yet. Please contact the administrator.';
   if (code === 'P1001' || code === 'P1002' || code === 'P1017') return 'Booking service is temporarily unavailable. Please try again in a moment.';
+  if (code === 'P2004') return 'The booking could not be saved because the database rejected one of the booking details.';
+  if (code === 'P2022') return 'Booking database schema is out of date. Please contact the administrator.';
+  if (code === 'P2024') return 'Booking service is busy right now. Please try again in a moment.';
+  if (code === 'P2028') return 'Booking transaction timed out. Please try again.';
   if (code === 'P2034') return 'This booking was processed at the same time as another request. Please try again.';
+  if (error instanceof Prisma.PrismaClientValidationError) return 'Booking details could not be processed. Please check your details and try again.';
   if (error.message === 'SLOT_ALREADY_BOOKED') return 'That slot was just booked. Please choose another time slot.';
   return 'Could not create booking. Please check your details and try again.';
 }
@@ -161,22 +167,23 @@ export async function POST(req: Request) {
         });
       }
 
-      // Notification failure must never cancel an otherwise valid booking.
-      try {
-        await tx.notification.create({
-          data: {
-            customerId: customer.id,
-            title: 'Booking received',
-            body: `Your booking ${bookingNo} has been received.`,
-            channel: 'IN_APP',
-          },
-        });
-      } catch (notificationError) {
-        console.error('[BOOKING_NOTIFICATION_ERROR]', notificationError);
-      }
-
-      return booking;
+      return { ...booking, customerId: customer.id };
     });
+
+    // Notifications are intentionally created after the booking transaction.
+    // A missing/invalid notification table must never roll back a valid booking.
+    try {
+      await db.notification.create({
+        data: {
+          customerId: result.customerId,
+          title: 'Booking received',
+          body: `Your booking ${result.bookingNo} has been received.`,
+          channel: 'IN_APP',
+        },
+      });
+    } catch (notificationError) {
+      console.error('[BOOKING_NOTIFICATION_ERROR]', notificationError);
+    }
 
     return NextResponse.json(
       { bookingNo: result.bookingNo, id: result.id, total: result.total },
