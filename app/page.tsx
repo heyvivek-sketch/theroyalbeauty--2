@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { db } from '@/lib/db';
 import BeautyHeroSlider from '@/components/BeautyHeroSlider';
+import AddToCartButton from '@/components/AddToCartButton';
 
 const categoryImages: Record<string,string> = {
   'beauty-package':'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=88',
@@ -73,7 +74,7 @@ export default async function Home(){
         <div className="container">
           <div className="beauty-section-heading"><div className="beauty-script-kicker">Popular picks</div><h2>Our Popular Services</h2></div>
           <div className="beauty-service-grid">
-            {services.map(s=>{const image=s.image||categoryImages[s.category?.slug||'']||fallbackHero;return <Link className="beauty-service-card" href={'/services/'+s.slug} key={s.id}><img src={image} alt={s.name}/><div className="beauty-service-body"><h3>{s.name}</h3><p>{s.description||'Professional beauty service at your doorstep.'}</p><div><b>₹{s.price.toLocaleString('en-IN')}</b><span>{s.duration} mins</span></div></div></Link>})}
+            {services.map(s=>{const image=s.image||categoryImages[s.category?.slug||'']||fallbackHero;return <article className="beauty-service-card" key={s.id}><Link href={'/services/'+s.slug}><img src={image} alt={s.name}/><div className="beauty-service-body"><h3>{s.name}</h3><p>{s.description||'Professional beauty service at your doorstep.'}</p><div><b>₹{s.price.toLocaleString('en-IN')}</b><span>{s.duration} mins</span></div></div></Link><AddToCartButton service={{id:s.id,name:s.name,price:s.price,duration:s.duration,image}}/></article>})}
           </div>
           <div className="beauty-center"><Link href="/services" className="beauty-view-all">VIEW ALL SERVICES <span>→</span></Link></div>
         </div>
