@@ -898,3 +898,53 @@
  .coupon-row{flex-direction:column}
  .booking-checkout .btn.secondary{width:100%}
 }
+
+
+/* Admin save confirmation toast */
+.admin-toast{
+  position:fixed;
+  top:104px;
+  right:28px;
+  z-index:10000;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:220px;
+  max-width:min(360px,calc(100vw - 32px));
+  padding:13px 17px;
+  border:1px solid rgba(189,93,116,.22);
+  border-radius:14px;
+  background:rgba(36,31,35,.96);
+  color:#fff;
+  box-shadow:0 18px 45px rgba(36,20,28,.22);
+  font-size:13px;
+  font-weight:800;
+  backdrop-filter:blur(12px);
+  animation:adminToastIn .22s ease-out;
+}
+.admin-toast-icon{
+  width:25px;
+  height:25px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  flex:0 0 auto;
+  background:#d98b9e;
+  color:#241f23;
+  font-size:14px;
+  font-weight:900;
+}
+@keyframes adminToastIn{
+  from{opacity:0;transform:translateY(-8px) translateX(8px)}
+  to{opacity:1;transform:translateY(0) translateX(0)}
+}
+@media(max-width:700px){
+  .admin-toast{
+    top:82px;
+    right:16px;
+    left:16px;
+    width:auto;
+    max-width:none;
+    justify-content:center;
+  }
+}
