@@ -1034,3 +1034,22 @@
 @media(prefers-reduced-motion:reduce){
   .beauty-hero-slide,.beauty-hero-slide .beauty-hero-image img{transition:none}
 }
+
+/* Homepage hero controls in admin */
+.banner-admin-guide{display:grid;gap:6px;padding:16px 18px;margin-bottom:18px;border:1px solid #efd9de;border-radius:14px;background:#fff7f8;color:#6f6469;font-size:12px;line-height:1.55}
+.banner-admin-guide b{font-size:14px;color:#241f23}
+.field-help{font-size:10px!important;color:#8b7f84!important;font-weight:500!important;line-height:1.4}
+.banner-live-preview{position:relative;min-height:280px;border-radius:18px;overflow:hidden;border:1px solid #eadfe3;background:#241f23}
+.banner-preview-image{position:absolute;inset:0}
+.banner-preview-image img{width:100%;height:100%;object-fit:cover;display:block}
+.banner-live-preview:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(18,12,15,.72),rgba(18,12,15,.12) 72%)}
+.banner-preview-copy{position:relative;z-index:1;max-width:650px;padding:34px;color:#fff;display:grid;gap:9px}
+.banner-preview-copy span{font-size:10px;letter-spacing:2px;font-weight:900;color:#f0a0ae}
+.banner-preview-copy b{font-family:Georgia,serif;font-size:34px;line-height:1.02}
+.banner-preview-copy p{margin:0;color:#eee4e7;font-size:13px;line-height:1.5;max-width:560px}
+.banner-preview-copy em{justify-self:start;background:#bd5d74;color:#fff;border-radius:999px;padding:9px 16px;font-style:normal;font-size:11px;font-weight:900}
+@media(max-width:700px){
+ .banner-live-preview{min-height:300px}
+ .banner-preview-copy{padding:25px 20px}
+ .banner-preview-copy b{font-size:27px}
+}
