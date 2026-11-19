@@ -122,7 +122,7 @@ function Services(){
    <div className="admin-modal-actions"><button type="button" className="btn secondary-btn" onClick={()=>setEditing(null)}>Cancel</button><button className="btn">Save service changes</button></div>
   </form>
  </div></div>}
- </>}
+ </>
 }
 
 function Categories(){
@@ -149,11 +149,11 @@ function Categories(){
    <label className="full">Image URL<input className="input" value={editing.image||''} placeholder="https://..." onChange={e=>setEditing({...editing,image:e.target.value})}/></label>
    <label>Sort order<input className="input" type="number" min="0" value={editing.sortOrder??0} onChange={e=>setEditing({...editing,sortOrder:e.target.value})}/></label>
    <label className="admin-check"><input type="checkbox" checked={!!editing.active} onChange={e=>setEditing({...editing,active:e.target.checked})}/> Active on website</label>
-   {editing.image&&<div className="edit-image-preview"><img src={editing.image} alt="Category preview"/></div>
+   {editing.image&&<div className="edit-image-preview"><img src={editing.image} alt="Category preview"/></div>}
    <div className="admin-modal-actions"><button type="button" className="btn secondary-btn" onClick={()=>setEditing(null)}>Cancel</button><button className="btn">Save category changes</button></div>
   </form>
  </div></div>}
- </>}
+ </>
 }
 
 function Staff(){const [items,setItems]=useState<any[]>([]),[services,setServices]=useState<any[]>([]),[f,setF]=useState<any>({name:'',phone:'',email:'',password:'',serviceIds:[]});async function load(){const r=await Promise.all([api('/api/admin/staff'),api('/api/admin/services').catch(()=>[])]);setItems(r[0]);setServices(r[1])}useEffect(()=>{load()},[]);return <><Head title="Beauticians / Staff" desc="Manage team members, portal access and service assignments."/><div className="admin-panel form-panel"><form className="form grid2" onSubmit={async e=>{e.preventDefault();try{await post('/api/admin/staff',f);setF({name:'',phone:'',email:'',password:'',serviceIds:[]});load()}catch(err:any){alert(err.message)}}}><label>Name<input className="input" required placeholder="Beautician name" value={f.name} onChange={e=>setF({...f,name:e.target.value})}/></label><label>Phone<input className="input" required placeholder="9876543210" value={f.phone} onChange={e=>setF({...f,phone:e.target.value})}/></label><label>Email<input className="input" type="email" placeholder="staff@example.com" value={f.email} onChange={e=>setF({...f,email:e.target.value})}/></label><label>Portal password<input className="input" type="password" placeholder="Temporary password" value={f.password} onChange={e=>setF({...f,password:e.target.value})}/></label><label className="full">Services<select className="input" multiple value={f.serviceIds.map(String)} onChange={e=>setF({...f,serviceIds:Array.from(e.target.selectedOptions).map(o=>Number(o.value))})}>{services.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></label><div><button className="btn">+ Add staff member</button></div></form></div><div className="admin-list">{items.map(s=><div className="entity-row" key={s.id}><div className="entity-avatar staff-avatar">{s.name?.slice(0,1).toUpperCase()}</div><div className="entity-main"><b>{s.name}</b><span>{s.phone} · {s.services?.length||0} service(s)</span></div><span className={'status-pill '+(s.active?'success':'muted-pill')}>{s.active?'Active':'Disabled'}</span><Toggle active={s.active} onClick={async()=>{await patch('/api/admin/staff',{id:s.id,name:s.name,phone:s.phone,email:s.email,active:!s.active,serviceIds:s.services?.map((x:any)=>x.serviceId)||[]});load()}}/></div>)}</div></>}
