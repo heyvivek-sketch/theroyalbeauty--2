@@ -40,15 +40,14 @@ export default function Booking(){
           <div className="booking-section-head"><div className="step">01</div><div><h2>Choose your services</h2><p>Select one or more services for your appointment.</p></div></div>
           <div className="service-grid">
             {services.map(s=><div className="service-card-wrap" key={s.id}>
-              <label className={'service-card '+(form.serviceIds.includes(s.id)?'selected':'')}>
-                <input type="checkbox" checked={form.serviceIds.includes(s.id)} onChange={()=>toggle(s.id)}/>
+              <div className={'service-card '+(form.serviceIds.includes(s.id)?'selected':'')} onClick={()=>toggle(s.id)}>
                 <span className="service-check">{form.serviceIds.includes(s.id)?<CheckIcon/>:null}</span>
                 <div className="service-copy"><h3>{s.name}</h3><p>{s.description}</p></div>
                 <div className="service-bottom"><strong>₹{s.price.toLocaleString('en-IN')}</strong><span>{s.duration} min</span></div>
-                <button type="button" className={'service-add-cart '+(items.some(i=>i.id===s.id)?'in-cart':'')} onClick={(e)=>{e.preventDefault();e.stopPropagation();addServiceToCart(s)}}>
+                <button type="button" className={'service-add-cart '+(items.some(i=>i.id===s.id)?'in-cart':'')} onClick={(e)=>{e.stopPropagation();addServiceToCart(s)}}>
                   <span>{items.some(i=>i.id===s.id)?'✓ Added to cart':'＋ Add to cart'}</span>
                 </button>
-              </label>
+              </div>
             </div>)}
           </div>
           {!services.length&&<div className="booking-empty">Loading services…</div>}
