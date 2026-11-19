@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { db } from '@/lib/db';
+import BeautyHeroSlider from '@/components/BeautyHeroSlider';
 
 const categoryImages: Record<string,string> = {
   'beauty-package':'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=88',
@@ -24,33 +25,27 @@ export default async function Home(){
     db.category.findMany({where:{active:true},take:12,orderBy:{sortOrder:'asc'}}),
     db.service.findMany({where:{active:true},take:6,orderBy:{sortOrder:'asc'},include:{category:true}}),
     db.siteSetting.findMany(),
-    db.banner.findFirst({where:{active:true},orderBy:{sortOrder:'asc'}})
+    db.banner.findMany({where:{active:true},orderBy:{sortOrder:'asc'}})
   ]);
   const settings=Object.fromEntries(settingRows.map(x=>[x.key,x.value]));
   const brand=settings.business_name||'The Royal Beauty';
   const city=settings.business_city||'Delhi-NCR';
   const hours=settings.opening_hours||'9:00 AM – 7:30 PM';
-  const heroImage=banner?.image||fallbackHero;
-  const heroTitle=banner?.title||settings.hero_tagline||'Delhi’s trusted at-home beauty service';
-  const heroSubtitle=banner?.subtitle||settings.short_description||'Professional beauty services delivered to your home. Relax, choose your service and let our professionals come to you.';
+  const heroSlides = banner.length ? banner.map((b, index) => ({
+    id: b.id,
+    image: b.image || fallbackHero,
+    title: b.title,
+    subtitle: b.subtitle || settings.short_description || 'Professional beauty services delivered to your home. Relax, choose your service and let our professionals come to you.',
+    link: b.link || '/booking',
+    badge: index === 0 ? 'FREE PEDICURE' : 'BOOK YOUR SERVICE'
+  })) : [];
   const phone=settings.phone||settings.business_phone||'+91 77038 29192';
   const promo=settings.promo_text||'₹100 OFF on Any Beauty Service | Code: BEAUTY100 | Minimum Service Value: ₹1,299';
   const categories = cats.length ? cats.slice(0,6).map(c=>({name:c.name,slug:c.slug,image:c.image||categoryImages[c.slug]||fallbackHero,href:'/services?category='+c.slug})) : defaultCategories.map(([name,slug,href])=>({name,slug,image:categoryImages[slug]||fallbackHero,href}));
 
   return (
     <main className="beauty-home">
-      <section className="beauty-hero">
-        <div className="beauty-hero-image"><img src={heroImage} alt={banner?.title||brand+' at-home beauty services'} /><div className="beauty-hero-shade"/></div>
-        <div className="container beauty-hero-content">
-          <div className="beauty-hero-copy">
-            <div className="beauty-script-kicker">At-home beauty care</div>
-            <h1>{heroTitle}</h1>
-            <p>{heroSubtitle}</p>
-            <div className="beauty-hero-badge"><b>FREE PEDICURE</b><span>On services above ₹1,499*</span></div>
-            <Link href={banner?.link||'/booking'} className="beauty-book-btn">BOOK NOW <span>›</span></Link>
-          </div>
-        </div>
-      </section>
+      <BeautyHeroSlider slides={heroSlides} />
 
       <section className="beauty-rating-strip"><div className="container"><span>Excellent</span><span className="beauty-stars">★★★★★</span><b>4.9 Out Of 5</b><span>Based On 2000+ Google Review</span></div></section>
 
