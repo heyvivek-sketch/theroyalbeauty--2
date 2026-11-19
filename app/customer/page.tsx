@@ -1,5 +1,6 @@
 'use client';
 import {useEffect,useState} from 'react';
+import Link from 'next/link';
 export default function Customer(){
  const [phone,setPhone]=useState(''),[password,setPassword]=useState(''),[step,setStep]=useState(0),[data,setData]=useState<any>(null),[msg,setMsg]=useState('');
  async function load(){const r=await fetch('/api/customer/bookings');if(r.ok)setData(await r.json());}
