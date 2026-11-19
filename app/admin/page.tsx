@@ -185,7 +185,7 @@ function Settings(){
   <label className="promo-text-field">Promotion text<input className="input" value={form.promo_text||''} onChange={e=>setForm({...form,promo_text:e.target.value})}/><small>Example: ₹100 OFF on Any Beauty Service | Code: BEAUTY100 | Minimum Service Value: ₹1,299</small></label>
   <button className="btn" onClick={()=>save('promo_text')}>Save promotion</button>
  </div>
- <div className="settings-grid">{defaults.map(([key,label,help])=><div className="setting-card" key={key}><div><b>{label}</b><span>{help}</span></div><input className="input" value={form[key]||''} onChange={e=>setForm({...form,[key]:e.target.value})}/><button className="btn" onClick={()=>save(key)}>Save</button></div>)}</div></div>
+ <div className="settings-grid">{defaults.map(([key,label,help])=><div className="setting-card" key={key}><div><b>{label}</b><span>{help}</span></div>{key==='terms_content'?<textarea className="input textarea" rows={6} value={form[key]||''} onChange={e=>setForm({...form,[key]:e.target.value})}/>:<input className="input" value={form[key]||''} onChange={e=>setForm({...form,[key]:e.target.value})}/>}<button className="btn" onClick={()=>save(key)}>Save</button></div>)}</div></div>
  <div className="admin-panel"><Head title="Advanced settings" desc="Other database-backed settings can also be managed here."/>
  {advanced.length===0?<Empty text="No advanced settings found."/>:<div className="admin-list">{advanced.map(x=><div className="entity-row" key={x.id}>
   <div className="entity-avatar">⚙</div><div className="entity-main"><b>{x.key}</b><span>{x.value}</span></div>
