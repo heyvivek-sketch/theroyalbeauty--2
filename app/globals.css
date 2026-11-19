@@ -1203,20 +1203,21 @@ body{background:#fbf8f1;color:var(--ink)}
 @media(max-width:760px){.service-add-cart{min-height:48px}}
 
 
-/* ===== Compact How It Works cards ===== */
+/* ===== Refined How It Works section ===== */
 .beauty-how{
-  padding:58px 0;
-  background:linear-gradient(180deg,#f5eee9 0%,#fbf8f1 100%);
+  padding:46px 0 52px;
+  background:linear-gradient(180deg,#f7f0eb 0%,#fbf8f3 100%);
 }
 .beauty-how .beauty-section-heading{
   max-width:620px;
-  margin-bottom:28px;
+  margin:0 auto 22px;
+  text-align:center;
 }
 .beauty-how .beauty-section-heading h2{
   font-family:Georgia,serif;
-  font-size:42px;
-  letter-spacing:-1px;
-  margin:7px 0 0;
+  font-size:38px;
+  letter-spacing:-.8px;
+  margin:6px 0 0;
 }
 .beauty-how-grid{
   display:grid;
@@ -1224,79 +1225,100 @@ body{background:#fbf8f1;color:var(--ink)}
   gap:14px;
 }
 .beauty-how-card{
-  min-height:0;
-  padding:20px 18px;
-  border:1px solid #e6d9d4;
-  border-radius:20px;
-  background:rgba(255,253,249,.78);
-  display:grid;
-  grid-template-columns:76px minmax(0,1fr);
+  min-width:0;
+  min-height:136px;
+  padding:18px;
+  border:1px solid #e5d8d3;
+  border-radius:22px;
+  background:rgba(255,253,249,.9);
+  display:flex;
   align-items:center;
-  gap:16px;
+  gap:15px;
   text-align:left;
-  box-shadow:0 8px 25px rgba(56,31,35,.045);
+  box-shadow:0 8px 24px rgba(56,31,35,.045);
   transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
 }
 .beauty-how-card:hover{
   background:#fffdf9;
-  border-color:#d8b5bc;
+  border-color:#d5afb8;
   transform:translateY(-2px);
   box-shadow:0 14px 32px rgba(56,31,35,.08);
 }
 .beauty-how-icon{
-  width:76px;
-  height:76px;
+  width:62px;
+  height:62px;
+  flex:0 0 62px;
   margin:0;
   border-radius:50%;
-  font-size:30px;
   display:grid;
   place-items:center;
   background:#fffdf9;
   color:#9b6571;
-  border:1px solid #e6d9d4;
-  box-shadow:0 8px 22px rgba(56,31,35,.06);
+  border:1px solid #e5d8d3;
+  box-shadow:0 6px 18px rgba(56,31,35,.05);
+}
+.beauty-how-icon svg{
+  width:29px;
+  height:29px;
+  display:block;
+}
+.beauty-how-content{
+  min-width:0;
 }
 .beauty-how-card h3{
-  margin:0 0 5px;
-  font-size:17px;
-  line-height:1.2;
+  margin:0 0 6px;
+  font-size:16px;
+  line-height:1.25;
   letter-spacing:-.2px;
 }
 .beauty-how-card p{
   margin:0;
-  max-width:none;
   font-size:12px;
   line-height:1.5;
   color:#8a777b;
 }
 @media(max-width:900px){
-  .beauty-how{padding:48px 0}
-  .beauty-how .beauty-section-heading h2{font-size:36px}
-  .beauty-how-grid{grid-template-columns:1fr;gap:10px}
+  .beauty-how{padding:40px 0 46px}
+  .beauty-how .beauty-section-heading{margin-bottom:18px}
+  .beauty-how .beauty-section-heading h2{font-size:34px}
+  .beauty-how-grid{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
   .beauty-how-card{
-    grid-template-columns:62px minmax(0,1fr);
+    min-height:0;
     padding:14px 16px;
-    border-radius:17px;
-  }
-  .beauty-how-icon{
-    width:62px;
-    height:62px;
-    font-size:25px;
-  }
-  .beauty-how-card h3{font-size:16px}
-  .beauty-how-card p{font-size:11px;line-height:1.45}
-}
-@media(max-width:420px){
-  .beauty-how{padding:42px 0}
-  .beauty-how .beauty-section-heading{margin-bottom:20px}
-  .beauty-how .beauty-section-heading h2{font-size:31px}
-  .beauty-how-card{
-    grid-template-columns:56px minmax(0,1fr);
-    padding:12px 14px;
+    border-radius:18px;
+    gap:14px;
   }
   .beauty-how-icon{
     width:56px;
     height:56px;
-    font-size:23px;
+    flex-basis:56px;
   }
+  .beauty-how-icon svg{
+    width:26px;
+    height:26px;
+  }
+  .beauty-how-card h3{font-size:16px}
+  .beauty-how-card p{font-size:11.5px;line-height:1.45}
+}
+@media(max-width:420px){
+  .beauty-how{padding:36px 0 42px}
+  .beauty-how .beauty-section-heading h2{font-size:30px}
+  .beauty-how-card{
+    padding:13px 14px;
+    gap:13px;
+  }
+  .beauty-how-icon{
+    width:52px;
+    height:52px;
+    flex-basis:52px;
+  }
+  .beauty-how-icon svg{
+    width:24px;
+    height:24px;
+  }
+  .beauty-how-card h3{font-size:15px}
+  .beauty-how-card p{font-size:11px}
 }
