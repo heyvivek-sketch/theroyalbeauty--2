@@ -196,7 +196,7 @@ function Settings(){
  {editing&&<div className="admin-modal-backdrop" onClick={()=>setEditing(null)}><div className="admin-edit-modal" onClick={e=>e.stopPropagation()}>
   <div className="admin-modal-head"><div><span className="eyebrow">ADVANCED SETTING</span><h3>Edit setting</h3><p>Change the setting key or value and save it to the database.</p></div><button className="admin-modal-close" onClick={()=>setEditing(null)}>×</button></div>
   <form className="form" onSubmit={saveAdvanced}>
-   <label>Setting key<input className="input" required value={editing.key||''} onChange={e=>setEditing({...editing,key:e.target.value})}/></label>
+   <label>Setting key<input className="input" readOnly value={editing.key||''}/></label>
    <label>Value<textarea className="input textarea" rows={5} required value={editing.value??''} onChange={e=>setEditing({...editing,value:e.target.value})}/></label>
    <div className="admin-modal-actions"><button type="button" className="btn secondary-btn" onClick={()=>setEditing(null)}>Cancel</button><button className="btn">Save setting changes</button></div>
   </form>
