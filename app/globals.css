@@ -229,3 +229,13 @@
  .beauty-footer .footer-actions{position:fixed;left:0;right:0;bottom:0;z-index:100;background:rgba(255,255,255,.98);backdrop-filter:blur(16px);box-shadow:0 -8px 30px rgba(0,0,0,.12)}.beauty-footer .footer-action{min-height:88px}body{padding-bottom:88px}
 }
 @media(max-width:420px){.beauty-call-us{padding:10px 15px;font-size:13px}.beauty-brand{font-size:22px}.beauty-brand .site-logo-image{max-width:145px}.beauty-hero-copy h1{font-size:40px}.beauty-category-card{height:285px}.beauty-category-card h3{font-size:34px;left:28px}}
+
+/* Dynamic storefront promotion controls */
+.promo-settings{border:1px solid var(--line);background:linear-gradient(135deg,#fff8f9,#fff);border-radius:18px;padding:20px;margin-bottom:20px;display:grid;gap:16px}
+.promo-settings-copy{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.promo-settings-copy>div{display:grid;gap:5px}
+.promo-settings-copy b{font-size:15px}
+.promo-settings-copy span{font-size:12px;color:var(--muted);line-height:1.5}
+.promo-text-field{display:grid;gap:6px;font-size:12px;font-weight:800}
+.promo-text-field small{font-size:10px;color:var(--muted);font-weight:500}
+@media(max-width:520px){.promo-settings{padding:16px}.promo-settings-copy{align-items:flex-start}}
