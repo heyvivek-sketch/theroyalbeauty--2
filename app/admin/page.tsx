@@ -202,5 +202,4 @@ function Settings(){
   </form>
  </div></div>}
  </>}
-}
 function Notifications(){const [title,setTitle]=useState(''),[body,setBody]=useState(''),[sending,setSending]=useState(false),[done,setDone]=useState('');async function send(e:FormEvent){e.preventDefault();setSending(true);setDone('');try{const r=await post('/api/admin/notifications',{title,body});setDone(r?.message||'Notification sent successfully');setTitle('');setBody('')}catch(err:any){alert(err.message)}finally{setSending(false)}}return <><Head title="Notifications" desc="Send an in-app announcement to your customers."/><div className="admin-panel form-panel narrow"><form className="form" onSubmit={send}><label>Title<input className="input" required placeholder="Weekend beauty offer" value={title} onChange={e=>setTitle(e.target.value)}/></label><label>Message<textarea className="input textarea" rows={5} required placeholder="Your message…" value={body} onChange={e=>setBody(e.target.value)}/></label>{done&&<div className="notice">{done}</div>}<button className="btn" disabled={sending}>{sending?'Sending…':'Send notification'}</button></form></div></>}
