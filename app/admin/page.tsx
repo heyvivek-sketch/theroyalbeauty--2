@@ -175,7 +175,16 @@ function Settings(){
  const [items,setItems]=useState<any[]>([]),[form,setForm]=useState<Record<string,string>>({promo_enabled:'true',promo_text:''}),[editing,setEditing]=useState<any>(null);
  async function load(){const rows=await api('/api/admin/settings').catch(()=>[]);setItems(rows);const next:any={promo_enabled:'true',promo_text:''};for(const [k,,,v] of defaults)next[k]=v;for(const x of rows)next[x.key]=x.value;setForm(next)}
  useEffect(()=>{load()},[]);
- async function save(key:string){try{await post('/api/admin/settings',{key,value:form[key]||''});load()}catch(err:any){alert(err.message)}}
+ async function save(key:string){
+  try{
+    const value=String(form[key]??'');
+    await post('/api/admin/settings',{key,value});
+    setForm(prev=>({...prev,[key]:value}));
+    await load();
+  }catch(err:any){
+    alert(err.message||'Could not save this setting.');
+  }
+}
  async function saveAdvanced(e:FormEvent){e.preventDefault();if(!editing)return;try{await post('/api/admin/settings',{key:String(editing.key).trim(),value:String(editing.value??'')});setEditing(null);load()}catch(err:any){alert(err.message)}}
  async function deleteAdvanced(item:any){if(!confirm('Delete this setting? This cannot be undone.'))return;try{await api('/api/admin/settings?key='+encodeURIComponent(item.key),{method:'DELETE'});load()}catch(err:any){alert(err.message)}}
  const advanced=items.filter((x:any)=>!defaults.some(d=>d[0]===x.key)&&x.key!=='promo_enabled'&&x.key!=='promo_text');
