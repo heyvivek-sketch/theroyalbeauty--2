@@ -45,10 +45,10 @@ export default function Booking(){
                 <span className="service-check">{form.serviceIds.includes(s.id)?<CheckIcon/>:null}</span>
                 <div className="service-copy"><h3>{s.name}</h3><p>{s.description}</p></div>
                 <div className="service-bottom"><strong>₹{s.price.toLocaleString('en-IN')}</strong><span>{s.duration} min</span></div>
+                <button type="button" className={'service-add-cart '+(items.some(i=>i.id===s.id)?'in-cart':'')} onClick={(e)=>{e.preventDefault();e.stopPropagation();addServiceToCart(s)}}>
+                  <span>{items.some(i=>i.id===s.id)?'✓ Added to cart':'＋ Add to cart'}</span>
+                </button>
               </label>
-              <button type="button" className={'service-add-cart '+(items.some(i=>i.id===s.id)?'in-cart':'')} onClick={()=>addServiceToCart(s)}>
-                <span>{items.some(i=>i.id===s.id)?'✓ In cart':'＋ Add to cart'}</span>
-              </button>
             </div>)}
           </div>
           {!services.length&&<div className="booking-empty">Loading services…</div>}
