@@ -172,24 +172,26 @@ function Payments(){const [items,setItems]=useState<any[]>([]);async function lo
 
 function Settings(){
  const defaults=[['business_name','Business name','Name shown across the website','The Royal Beauty'],['business_city','Service city','Location shown to customers','Delhi-NCR'],['phone','Phone number','Phone number shown on Contact, Footer and call buttons','+91 77038 29192'],['email','Email address','Email shown on Contact and Footer','bookings@theroyalbeauty.in'],['contact_address','Office location','Address/location shown on Contact page','Delhi-NCR'],['hero_tagline','Homepage headline','Main hero headline','Your beauty. Your home. Your time.'],['short_description','Short description','Homepage/menu description','Professional beauty and self-care services delivered to your home. Pick a service, choose your slot and relax.'],['opening_hours','Opening hours','Customer appointment hours','9:00 AM – 7:30 PM'],['logo_url','Logo URL','Storefront logo image URL',''],['whatsapp_url','WhatsApp URL','WhatsApp button destination','https://wa.me/919999999999'],['terms_content','Terms and Conditions','Terms page content. Separate paragraphs with a blank line.','All bookings are subject to service availability.\n\nCustomers should provide accurate contact and address details at the time of booking.\n\nOur team may contact you to confirm or reschedule an appointment when required.\n\nPlease review the booking details before confirming your appointment.']];
- const [items,setItems]=useState<any[]>([]),[form,setForm]=useState<Record<string,string>>({promo_enabled:'true',promo_text:''}),[editing,setEditing]=useState<any>(null);
+ const [items,setItems]=useState<any[]>([]),[form,setForm]=useState<Record<string,string>>({promo_enabled:'true',promo_text:''}),[editing,setEditing]=useState<any>(null),[toast,setToast]=useState('');
  async function load(){const rows=await api('/api/admin/settings').catch(()=>[]);setItems(rows);const next:any={promo_enabled:'true',promo_text:''};for(const [k,,,v] of defaults)next[k]=v;for(const x of rows)next[x.key]=x.value;setForm(next)}
  useEffect(()=>{load()},[]);
+ useEffect(()=>{if(!toast)return;const t=window.setTimeout(()=>setToast(''),3000);return()=>window.clearTimeout(t)},[toast]);
  async function save(key:string){
   try{
     const value=String(form[key]??'');
     await post('/api/admin/settings',{key,value});
     setForm(prev=>({...prev,[key]:value}));
+    setToast('Saved successfully');
     await load();
   }catch(err:any){
     alert(err.message||'Could not save this setting.');
   }
 }
- async function saveAdvanced(e:FormEvent){e.preventDefault();if(!editing)return;try{await post('/api/admin/settings',{key:String(editing.key).trim(),value:String(editing.value??'')});setEditing(null);load()}catch(err:any){alert(err.message)}}
+ async function saveAdvanced(e:FormEvent){e.preventDefault();if(!editing)return;try{await post('/api/admin/settings',{key:String(editing.key).trim(),value:String(editing.value??'')});setEditing(null);setToast('Setting saved successfully');load()}catch(err:any){alert(err.message)}}
  async function deleteAdvanced(item:any){if(!confirm('Delete this setting? This cannot be undone.'))return;try{await api('/api/admin/settings?key='+encodeURIComponent(item.key),{method:'DELETE'});load()}catch(err:any){alert(err.message)}}
  const advanced=items.filter((x:any)=>!defaults.some(d=>d[0]===x.key)&&x.key!=='promo_enabled'&&x.key!=='promo_text');
  return <><Head title="Store settings" desc="Control your storefront from the database. No deployment environment variable is needed for these settings."/>
- <div className="admin-panel form-panel"><div className="promo-settings">
+ <div className="admin-panel form-panel"><div className="admin-toast" role="status" aria-live="polite" data-visible={!!toast}>{toast&&<><span className="admin-toast-icon">✓</span><span>{toast}</span></>}</div><div className="promo-settings">
   <div className="promo-settings-copy"><div><b>Promotional banner</b><span>Show or hide the sale banner above the website header without redeploying.</span></div><Toggle active={form.promo_enabled!=='false'} onClick={()=>{const next=form.promo_enabled==='false'?'true':'false';setForm({...form,promo_enabled:next});post('/api/admin/settings',{key:'promo_enabled',value:next}).then(load).catch(()=>{})}}/></div>
   <label className="promo-text-field">Promotion text<input className="input" value={form.promo_text||''} onChange={e=>setForm({...form,promo_text:e.target.value})}/><small>Example: ₹100 OFF on Any Beauty Service | Code: BEAUTY100 | Minimum Service Value: ₹1,299</small></label>
   <button className="btn" onClick={()=>save('promo_text')}>Save promotion</button>
