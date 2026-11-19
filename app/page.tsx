@@ -65,7 +65,27 @@ export default async function Home(){
         <div className="container">
           <div className="beauty-section-heading center"><div className="beauty-script-kicker">Easy booking</div><h2>How It Works</h2></div>
           <div className="beauty-how-grid">
-            {[['✦','Select Your Service','Choose your beauty services or browse our services page.'],['◷','Choose A Time & Date','Choose a convenient date and time for your appointment.'],['♡','We Will Come To You','Sit back and relax. Our professional comes to your doorstep.']].map(([icon,title,text])=><div className="beauty-how-card" key={title}><div className="beauty-how-icon">{icon}</div><h3>{title}</h3><p>{text}</p></div>)}
+            {[
+              ['service','Select Your Service','Choose your beauty services or browse our services page.'],
+              ['time','Choose A Time & Date','Choose a convenient date and time for your appointment.'],
+              ['home','We Will Come To You','Sit back and relax. Our professional comes to your doorstep.']
+            ].map(([icon,title,text])=>(
+              <div className="beauty-how-card" key={title}>
+                <div className="beauty-how-icon" aria-hidden="true">
+                  {icon==='service' ? (
+                    <svg viewBox="0 0 48 48" fill="none"><path d="M14 19h20l-2 19H16l-2-19Z" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round"/><path d="M19 19v-3a5 5 0 0 1 10 0v3" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/><path d="M24 25v7" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"/></svg>
+                  ) : icon==='time' ? (
+                    <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="14" stroke="currentColor" strokeWidth="2.2"/><path d="M24 16v9l6 4" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  ) : (
+                    <svg viewBox="0 0 48 48" fill="none"><path d="M24 35s-11-6.8-11-15a6.2 6.2 0 0 1 11-3.7A6.2 6.2 0 0 1 35 20c0 8.2-11 15-11 15Z" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round"/></svg>
+                  )}
+                </div>
+                <div className="beauty-how-content">
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
