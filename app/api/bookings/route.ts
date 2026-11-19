@@ -2,7 +2,7 @@ import {NextResponse} from 'next/server'; import {db} from '@/lib/db'; import bc
 export async function POST(req:Request){
   try{
     const d=bookingSchema.parse(await req.json());
-    const date=new Date(\`${d.date}T00:00:00.000Z\`);
+    const date=new Date(`${d.date}T00:00:00.000Z`);
     if(Number.isNaN(date.getTime())||date<new Date(new Date().toISOString().slice(0,10)+'T00:00:00.000Z')) return NextResponse.json({error:'Please choose a future date'},{status:400});
     const [services,slot,area]=await Promise.all([
       db.service.findMany({where:{id:{in:d.serviceIds},active:true}}),
