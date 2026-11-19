@@ -1201,3 +1201,102 @@ body{background:#fbf8f1;color:var(--ink)}
 .service-add-cart:hover{transform:translateY(-1px);background:#b97886;color:#fff;border-color:#b97886;box-shadow:0 10px 22px rgba(185,120,134,.18)}
 .service-add-cart.in-cart{background:#3f8060;color:#fff;border-color:#3f8060}
 @media(max-width:760px){.service-add-cart{min-height:48px}}
+
+
+/* ===== Compact How It Works cards ===== */
+.beauty-how{
+  padding:58px 0;
+  background:linear-gradient(180deg,#f5eee9 0%,#fbf8f1 100%);
+}
+.beauty-how .beauty-section-heading{
+  max-width:620px;
+  margin-bottom:28px;
+}
+.beauty-how .beauty-section-heading h2{
+  font-family:Georgia,serif;
+  font-size:42px;
+  letter-spacing:-1px;
+  margin:7px 0 0;
+}
+.beauty-how-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+.beauty-how-card{
+  min-height:0;
+  padding:20px 18px;
+  border:1px solid #e6d9d4;
+  border-radius:20px;
+  background:rgba(255,253,249,.78);
+  display:grid;
+  grid-template-columns:76px minmax(0,1fr);
+  align-items:center;
+  gap:16px;
+  text-align:left;
+  box-shadow:0 8px 25px rgba(56,31,35,.045);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+.beauty-how-card:hover{
+  background:#fffdf9;
+  border-color:#d8b5bc;
+  transform:translateY(-2px);
+  box-shadow:0 14px 32px rgba(56,31,35,.08);
+}
+.beauty-how-icon{
+  width:76px;
+  height:76px;
+  margin:0;
+  border-radius:50%;
+  font-size:30px;
+  display:grid;
+  place-items:center;
+  background:#fffdf9;
+  color:#9b6571;
+  border:1px solid #e6d9d4;
+  box-shadow:0 8px 22px rgba(56,31,35,.06);
+}
+.beauty-how-card h3{
+  margin:0 0 5px;
+  font-size:17px;
+  line-height:1.2;
+  letter-spacing:-.2px;
+}
+.beauty-how-card p{
+  margin:0;
+  max-width:none;
+  font-size:12px;
+  line-height:1.5;
+  color:#8a777b;
+}
+@media(max-width:900px){
+  .beauty-how{padding:48px 0}
+  .beauty-how .beauty-section-heading h2{font-size:36px}
+  .beauty-how-grid{grid-template-columns:1fr;gap:10px}
+  .beauty-how-card{
+    grid-template-columns:62px minmax(0,1fr);
+    padding:14px 16px;
+    border-radius:17px;
+  }
+  .beauty-how-icon{
+    width:62px;
+    height:62px;
+    font-size:25px;
+  }
+  .beauty-how-card h3{font-size:16px}
+  .beauty-how-card p{font-size:11px;line-height:1.45}
+}
+@media(max-width:420px){
+  .beauty-how{padding:42px 0}
+  .beauty-how .beauty-section-heading{margin-bottom:20px}
+  .beauty-how .beauty-section-heading h2{font-size:31px}
+  .beauty-how-card{
+    grid-template-columns:56px minmax(0,1fr);
+    padding:12px 14px;
+  }
+  .beauty-how-icon{
+    width:56px;
+    height:56px;
+    font-size:23px;
+  }
+}
