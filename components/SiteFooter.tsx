@@ -16,6 +16,6 @@ export default function SiteFooter({settings}:{settings?:Settings}) {
    <div className="beauty-footer-col"><h3>Discovers</h3><Link href="/">→ Home</Link><Link href="/customer">→ Login/Register</Link><Link href="/contact">→ Contact Us</Link><Link href="/terms">→ Terms and Conditions</Link></div>
    <div className="beauty-footer-col"><h3>Need Help?</h3><h4>Phone Number</h4><a href={'tel:'+phone.replace(/[^0-9+]/g,'')}>☎ {phone}</a><h4>Email Address</h4><a href={'mailto:'+email}>✉ {email}</a><h4>Office Location</h4><span>⌖ {city}</span></div>
   </div>
-  <div className="beauty-copyright">© 2026 <span>{brand}</span>. All Rights Reserved.</div>
+  <div className="beauty-copyright">© 2026 <span>{brand.toUpperCase()}</span>. ALL RIGHTS RESERVED. <span className="footer-built-by">Built by <a href="https://growthzync.in/" target="_blank" rel="noreferrer">GrowthZync</a></span></div>
  </footer>;
 }
