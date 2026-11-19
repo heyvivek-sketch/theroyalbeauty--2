@@ -37,7 +37,8 @@ export default async function Home(){
     title: b.title,
     subtitle: b.subtitle || settings.short_description || 'Professional beauty services delivered to your home. Relax, choose your service and let our professionals come to you.',
     link: b.link || '/booking',
-    badge: index === 0 ? 'FREE PEDICURE' : 'BOOK YOUR SERVICE'
+    badge: settings.hero_badge_text || (index === 0 ? 'FREE PEDICURE' : 'BOOK YOUR SERVICE'),
+    buttonText: settings.hero_button_text || 'BOOK NOW'
   })) : [];
   const phone=settings.phone||settings.business_phone||'+91 77038 29192';
   const promo=settings.promo_text||'₹100 OFF on Any Beauty Service | Code: BEAUTY100 | Minimum Service Value: ₹1,299';
