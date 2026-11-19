@@ -48,6 +48,7 @@ export default function SiteHeader({settings}:{settings?:Settings}){
     <nav className="site-menu-links">
      <Link href="/" onClick={close}>Home <span>→</span></Link>
      <Link href="/services" onClick={close}>Services <span>→</span></Link>
+     <Link href="/cart" onClick={close}>My Cart {count>0&&<small>({count})</small>} <span>→</span></Link>
      <Link href="/booking" onClick={close}>Book a service <span>→</span></Link>
      <Link href="/customer" onClick={close}>My bookings <span>→</span></Link>
     </nav>
