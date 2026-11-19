@@ -749,3 +749,12 @@
   .promo-settings-copy span{font-size:11px;}
 }
 
+
+
+.danger-text-btn{
+  color:#b4233f!important;
+  border-color:rgba(180,35,63,.18)!important;
+}
+.danger-text-btn:hover{
+  background:#fff1f3!important;
+}
