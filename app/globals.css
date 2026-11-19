@@ -1193,3 +1193,11 @@ body{background:#fbf8f1;color:var(--ink)}
  .detail-actions .add-cart-btn{width:100%}
  .detail-actions .btn{width:100%}
 }
+
+/* Booking service cart actions */
+.service-card-wrap{display:flex;flex-direction:column;min-width:0}
+.service-card-wrap .service-card{border-bottom-left-radius:12px;border-bottom-right-radius:12px}
+.service-add-cart{width:100%;min-height:46px;margin-top:8px;border:1px solid #d9b0b8;border-radius:13px;background:#fff4f6;color:#9f6572;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;transition:.18s ease}
+.service-add-cart:hover{transform:translateY(-1px);background:#b97886;color:#fff;border-color:#b97886;box-shadow:0 10px 22px rgba(185,120,134,.18)}
+.service-add-cart.in-cart{background:#3f8060;color:#fff;border-color:#3f8060}
+@media(max-width:760px){.service-add-cart{min-height:48px}}
