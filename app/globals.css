@@ -554,6 +554,25 @@
 }
 .beauty-copyright span{color:#e77f73;}
 
+
+/* Footer social icons + copyright credit polish */
+.beauty-socials{display:flex;gap:14px;align-items:center;margin-top:22px;}
+.beauty-socials a{display:grid;place-items:center;width:52px;height:52px;border-radius:14px;background:#252528;color:#fff;border:1px solid rgba(255,255,255,.06);}
+.beauty-socials a svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.beauty-socials a:first-child svg{fill:currentColor;stroke:none;}
+.beauty-socials a:hover{background:#d47770;color:#fff;transform:translateY(-3px);}
+.beauty-copyright{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 8px;text-align:center;line-height:1.6;}
+.beauty-copyright .footer-built-by{display:inline-flex;align-items:center;gap:4px;}
+.beauty-copyright .footer-built-by a{color:#e88b82;text-decoration:none;font-weight:800;transition:.2s ease;}
+.beauty-copyright .footer-built-by a:hover{color:#fff;text-decoration:underline;}
+@media(max-width:700px){
+ .beauty-socials{gap:12px;margin-top:20px;}
+ .beauty-socials a{width:50px;height:50px;border-radius:13px;}
+ .beauty-socials a svg{width:23px;height:23px;}
+ .beauty-copyright{padding:24px 20px 106px;font-size:12px;gap:2px 6px;}
+ .beauty-copyright .footer-built-by{width:100%;justify-content:center;margin-top:2px;}
+}
+
 /* Keep the existing header/layout untouched; only polish storefront content below it. */
 @media(max-width:900px){
   .beauty-home .container{width:min(100% - 36px,1180px);}
