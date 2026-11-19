@@ -10,6 +10,7 @@ type Slide = {
   subtitle?: string | null;
   link?: string | null;
   badge?: string;
+  buttonText?: string;
 };
 
 const fallbackSlides: Slide[] = [
@@ -20,6 +21,7 @@ const fallbackSlides: Slide[] = [
     subtitle: 'Professional beauty services delivered to your home. Relax, choose your service and let our professionals come to you.',
     link: '/booking',
     badge: 'FREE PEDICURE',
+    buttonText: 'BOOK NOW',
   },
   {
     id: 'default-2',
@@ -28,6 +30,7 @@ const fallbackSlides: Slide[] = [
     subtitle: 'Facials, waxing, massage, nails and more — booked in a few simple steps.',
     link: '/services',
     badge: 'BOOK YOUR SERVICE',
+    buttonText: 'BOOK NOW',
   },
   {
     id: 'default-3',
@@ -36,6 +39,7 @@ const fallbackSlides: Slide[] = [
     subtitle: 'Professional beauty care for parties, weddings and everyday self-care.',
     link: '/services?category=wedding',
     badge: 'SPECIAL OCCASION',
+    buttonText: 'BOOK NOW',
   },
 ];
 
@@ -96,7 +100,7 @@ export default function BeautyHeroSlider({ slides = [] }: { slides?: Slide[] }) 
               </div>
 
               <Link href={slide.link || '/booking'} className="beauty-book-btn">
-                BOOK NOW <span>›</span>
+                {slide.buttonText || 'BOOK NOW'} <span>›</span>
               </Link>
             </div>
           </div>
