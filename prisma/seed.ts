@@ -5,18 +5,18 @@ import { createHash } from "crypto";
 const db = new PrismaClient();
 
 const categoryImages: Record<string,string> = {
-  "face-wax":"https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=900&q=85",
-  "threading":"https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=900&q=85",
-  "facial":"https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=900&q=85",
-  "honey-wax":"https://images.unsplash.com/photo-1519415510236-718bdfcd89c8?auto=format&fit=crop&w=900&q=85",
-  "rica-wax":"https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=900&q=85",
-  "mani-pedi":"https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=900&q=85",
-  "pedicure":"https://images.unsplash.com/photo-1607779097040-26e80aa78e66?auto=format&fit=crop&w=900&q=85",
-  "manicure":"https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=900&q=85",
-  "raaga":"https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=85",
-  "bleach":"https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&w=900&q=85",
-  "massage":"https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=900&q=85",
-  "polishing":"https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=900&q=85"
+  "face-wax":"https://images.pexels.com/photos/6763618/pexels-photo-6763618.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "threading":"https://images.pexels.com/photos/6135615/pexels-photo-6135615.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "facial":"https://images.pexels.com/photos/37229299/pexels-photo-37229299.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "honey-wax":"https://images.pexels.com/photos/6763618/pexels-photo-6763618.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "rica-wax":"https://images.pexels.com/photos/6763618/pexels-photo-6763618.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "mani-pedi":"https://images.pexels.com/photos/16041439/pexels-photo-16041439.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "pedicure":"https://images.pexels.com/photos/4960359/pexels-photo-4960359.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "manicure":"https://images.pexels.com/photos/16041439/pexels-photo-16041439.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "raaga":"https://images.pexels.com/photos/19641818/pexels-photo-19641818.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "bleach":"https://images.pexels.com/photos/8468126/pexels-photo-8468126.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "massage":"https://images.pexels.com/photos/19641818/pexels-photo-19641818.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "polishing":"https://images.pexels.com/photos/7795646/pexels-photo-7795646.jpeg?auto=compress&cs=tinysrgb&w=1200"
 };
 
 async function main() {
@@ -39,8 +39,8 @@ async function main() {
     if(!category) continue;
     await db.service.upsert({
       where:{slug:String(slug)},
-      update:{name:String(name),description:String(description),price:Number(price),duration:Number(duration),active:true,categoryId:category.id,sortOrder:i},
-      create:{name:String(name),slug:String(slug),description:String(description),price:Number(price),duration:Number(duration),categoryId:category.id,active:true,sortOrder:i}
+      update:{name:String(name),description:String(description),price:Number(price),duration:Number(duration),active:true,categoryId:category.id,image:categoryImages[String(categorySlug)]||category.image,sortOrder:i},
+      create:{name:String(name),slug:String(slug),description:String(description),price:Number(price),duration:Number(duration),categoryId:category.id,image:categoryImages[String(categorySlug)]||category.image,active:true,sortOrder:i}
     });
   }
 
