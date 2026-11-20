@@ -64,15 +64,20 @@ async function main() {
     await db.staffService.upsert({where:{staffId_serviceId:{staffId:staff.id,serviceId:s.id}},update:{},create:{staffId:staff.id,serviceId:s.id}});
   }
 
+  // Seed the admin only when deployment credentials are configured.
+  // The storefront catalog must still seed successfully without admin credentials.
   const adminEmail=process.env.ADMIN_EMAIL;
   const adminPassword=process.env.ADMIN_PASSWORD;
-  if(!adminEmail||!adminPassword) throw new Error("ADMIN_EMAIL and ADMIN_PASSWORD must be set before seeding the admin user.");
-  const adminPasswordHash=await bcrypt.hash(adminPassword,12);
-  await db.admin.upsert({
-    where:{email:adminEmail.trim().toLowerCase()},
-    update:{passwordHash:adminPasswordHash,active:true},
-    create:{name:"The Royal Beauty Admin",email:adminEmail.trim().toLowerCase(),passwordHash:adminPasswordHash,role:"ADMIN",active:true}
-  });
+  if(adminEmail && adminPassword){
+    const adminPasswordHash=await bcrypt.hash(adminPassword,12);
+    await db.admin.upsert({
+      where:{email:adminEmail.trim().toLowerCase()},
+      update:{passwordHash:adminPasswordHash,active:true},
+      create:{name:"The Royal Beauty Admin",email:adminEmail.trim().toLowerCase(),passwordHash:adminPasswordHash,role:"ADMIN",active:true}
+    });
+  } else {
+    console.warn("ADMIN_EMAIL/ADMIN_PASSWORD not set; skipped admin seed.");
+  }
 
   await db.siteSetting.upsert({where:{key:"store_name"},update:{value:"The Royal Beauty"},create:{key:"store_name",value:"The Royal Beauty"}});
   await db.siteSetting.upsert({where:{key:"business_hours"},update:{value:"9:00 AM - 7:30 PM"},create:{key:"business_hours",value:"9:00 AM - 7:30 PM"}});
